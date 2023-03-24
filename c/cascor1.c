@@ -209,9 +209,9 @@ typedef struct parmentry PARMS;
 int UnitType;		   /* hidden unit type can be SIGMOID or GAUSIAN*/
 int OutputType;	           /* output unit type can be SIGMOID or LINEAR */
 float SigmoidMax;	   /* Maximum output vaule for sigmoid units. Used */
-                           /* to alter sigmoid range without having to edit */ 
+                           /* to alter sigmoid range without having to edit */
                            /* training values.  Use the symbols "min" and  */
-                           /* "max" in the input file.  The input routines */ 
+                           /* "max" in the input file.  The input routines */
                            /* will translate to the appropriate float values.*/
 float SigmoidMin;	   /* Minimum output vaule for sigmoid units.  */
 float WeightRange;         /* Random-init weights in range [-WR,+WR] */
@@ -290,8 +290,8 @@ float **TrainingOutputs;
 float *Goal;                /* Goal vector for the current training or */
                             /* testing case.                           */
 char *T_T_files;            /* Pointer to Training or Test filenames  */
-                            /* in input line updated by PROCESS_LINE, */ 
-                            /* each time the user needs a file for input */ 
+                            /* in input line updated by PROCESS_LINE, */
+                            /* each time the user needs a file for input */
                             /* of training or test data. */
 /***************************************************************************/
 /*  For some benchmarks there is a separate set of values used for testing */
@@ -474,7 +474,7 @@ long conx;
 * main routines mostly C specific
 *************/
 void GET_NETWORK_CONFIGURATION(char *fname);
-VOIDP GET_ARRAY_MEM(unsigned elt_count, 
+VOIDP GET_ARRAY_MEM(unsigned elt_count,
 		    unsigned elt_size, char *fun_name);
 void ERROR(int type, char *message);
 
@@ -488,7 +488,7 @@ float OUTPUT_FUNCTION(float sum);
 float OUTPUT_PRIME(float out);
 
 /************
-* Network-building utilities. 
+* Network-building utilities.
 *************/
 
 void BUILD_NET(void);
@@ -553,8 +553,8 @@ void OUT_PASS_OUTPUT(void);
 * quickprop routine
 *************/
 
-void QUICKPROP_UPDATE(int i, float weights[], float deltas[], float slopes[], 
-		      float prevs[], float epsilon, float decay, float mu, 
+void QUICKPROP_UPDATE(int i, float weights[], float deltas[], float slopes[],
+		      float prevs[], float epsilon, float decay, float mu,
 		      float shrink_factor);
 
 
@@ -566,7 +566,7 @@ void SETUP_INPUTS(float input[]);
 void OUTPUT_FORWARD_PASS(void);
 void COMPUTE_UNIT_VALUE(int j);
 void FULL_FORWARD_PASS(float input[]);
-void COMPUTE_ERRORS(float goal[], 
+void COMPUTE_ERRORS(float goal[],
 		    BOOLEAN output_slopesp, BOOLEAN statsp);
 void UPDATE_OUTPUT_WEIGHTS(void);
 void TRAIN_OUTPUTS_EPOCH(void);
@@ -726,7 +726,7 @@ main(int argc, char *argv[])
 
       if(DumpWeights)
 	DUMP_WEIGHTS(WeightFile);
-      else if(interact && 
+      else if(interact &&
 	      Y_OR_N_P(" Do you want to save the current weigths?"))
 	  INTERACT_DUMP_WEIGHTS();
     }
@@ -735,9 +735,9 @@ main(int argc, char *argv[])
     printf("\n\nTRAINING LOOP STATS\n");
     LIST_PARAMETERS();
     printf("\n Victories: %d, Defeats: %d, \n", vics, defs);
-    printf("   Training Epochs - Min: %d, Avg: %d,  Max: %d,\n", 
+    printf("   Training Epochs - Min: %d, Avg: %d,  Max: %d,\n",
 	   min_epochs, (total_epochs / total_trials), max_epochs);
-    printf("   Hidden Units -    Min: %d, Avg: %4.1f,  Max: %d,\n", 
+    printf("   Hidden Units -    Min: %d, Avg: %4.1f,  Max: %d,\n",
 	   min_units,((float)total_units /total_trials), max_units);
 
   }while((interact) && Y_OR_N_P("Do you want to run more trials?"));
@@ -796,12 +796,12 @@ main(int argc, char *argv[])
     for(j=0;  j<Noutputs; j++)
       printf("%6.4f ", Outputs[j]);
     printf("\n");
-  } 
-    
+  }
+
 }
 
 
-/* Read the next NTrainingPattern number of lines into the TrainingInput 
+/* Read the next NTrainingPattern number of lines into the TrainingInput
  * This is for prediction only run, so there are no target outputs read.
  */
 void GET_INPUT_DATA(char *dfname)
@@ -819,10 +819,10 @@ void GET_INPUT_DATA(char *dfname)
 
  for (i=0; i<NTrainingPatterns; i++){
    /* look at 1st char of next line. */
-   peek = fgetc(infile); ungetc(peek, infile); 
+   peek = fgetc(infile); ungetc(peek, infile);
    if(peek == '#' || peek == '\n'){
      /* Throw away the line if it is a comment or blank. */
-     fgets(foo, LINELEN, infile); 
+     fgets(foo, LINELEN, infile);
      i--;
    }
    else
@@ -830,21 +830,21 @@ void GET_INPUT_DATA(char *dfname)
        fscanf (infile, "%f", &TrainingInputs[i][j]);
  }
 }
-  
+
 #endif				/* PREDICT_ONLY */
 
 /*********************************************************************/
 /*  C specific functions                                             */
 /*********************************************************************/
 
-/* Initialize all globals that are not problem dependent.  Put this function 
+/* Initialize all globals that are not problem dependent.  Put this function
  * in a seperate file to make changing parameters less painful.
  */
 
 
 void INITIALIZE_GLOBALS(void)
 {
-  UnitType = SIGMOID;	
+  UnitType = SIGMOID;
   OutputType = SIGMOID;
   SigmoidMin = -0.5;
   SigmoidMax = 0.5;
@@ -905,7 +905,7 @@ void INITIALIZE_GLOBALS(void)
 
 
 /*
- *  Get and initialize a network. 
+ *  Get and initialize a network.
  */
 void GET_NETWORK_CONFIGURATION(char *fname)
 {
@@ -959,8 +959,8 @@ VOIDP GET_ARRAY_MEM(unsigned elt_count, unsigned elt_size, char *fun_name)
   foo = calloc(elt_count, elt_size);
 
   if(foo == NULL){
-    sprintf(ErrMsg, 
-	    "Program ran out of memory.  Allocator called from %s\n", 
+    sprintf(ErrMsg,
+	    "Program ran out of memory.  Allocator called from %s\n",
 	    fun_name);
     ERROR(FATAL, ErrMsg);
   }
@@ -1000,7 +1000,7 @@ void BUILD_NET(void)
   Nunits = 1 + Ninputs;
 
   /* setup for ErrorIndex */
-  NtrainingOutputValues = Noutputs * NTrainingPatterns; 
+  NtrainingOutputValues = Noutputs * NTrainingPatterns;
   NtestOutputValues = Noutputs * NTestPatterns;
   if(Nunits>MaxUnits)
     ERROR(FATAL, "MaxUnits must be greater than Ninputs.");
@@ -1019,7 +1019,7 @@ void BUILD_NET(void)
   SumErrors = (float *)GET_ARRAY_MEM(Noutputs, sizeof(float), fn);
   DummySumErrors = (float *)GET_ARRAY_MEM(Noutputs, sizeof(float), fn);
   Errors = ExtraErrors;
-	
+
   Outputs = (float *)GET_ARRAY_MEM(Noutputs, sizeof(float), fn);
   OutputWeights = (float **)GET_ARRAY_MEM(Noutputs, sizeof(float *), fn);
   OutputDeltas = (float **)GET_ARRAY_MEM(Noutputs, sizeof(float *), fn);
@@ -1034,10 +1034,10 @@ void BUILD_NET(void)
   CandDeltas = (float **)GET_ARRAY_MEM(Ncandidates, sizeof(float *), fn);
   CandSlopes = (float **)GET_ARRAY_MEM(Ncandidates, sizeof(float *), fn);
   CandPrevSlopes = (float **)GET_ARRAY_MEM(Ncandidates, sizeof(float *), fn);
- 
+
   TrainingInputs = (float **)GET_ARRAY_MEM(NTrainingPatterns,
 					   sizeof(float *), fn);
-  TrainingOutputs = (float **)GET_ARRAY_MEM(NTrainingPatterns, 
+  TrainingOutputs = (float **)GET_ARRAY_MEM(NTrainingPatterns,
 					    sizeof(float *), fn);
   if(NTestPatterns){
     TestInputs = (float **)GET_ARRAY_MEM(NTestPatterns, sizeof(float *), fn);
@@ -1146,7 +1146,7 @@ void INIT_NET(void)
 
   ExtraValues[0] = 1.0;		/* bias unit */
   Epoch = 0;
-  Nunits = Ninputs + 1;  
+  Nunits = Ninputs + 1;
   ErrorBits = 0;
   TrueError = 0.0;
   for(i=0; i<Noutputs; i++){
@@ -1163,10 +1163,10 @@ void INIT_NET(void)
   if(ErrorMeasure == INDEX){
     /* ErrorIndex initialization */
     ErrorIndex = 0.0;
-    TrainingStdDev = STANDARD_DEV(TrainingOutputs, NTrainingPatterns, 
+    TrainingStdDev = STANDARD_DEV(TrainingOutputs, NTrainingPatterns,
 				  NtrainingOutputValues);
     if(NTestPatterns)
-      TestStdDev = STANDARD_DEV(TestOutputs, NTestPatterns, 
+      TestStdDev = STANDARD_DEV(TestOutputs, NTestPatterns,
 				NtestOutputValues);
   }
 }
@@ -1184,36 +1184,36 @@ float ACTIVATION(float sum)
   float temp;
 
   switch(UnitType){
-  case SIGMOID: 
+  case SIGMOID:
     /* Sigmoid function in range -0.5 to 0.5. */
-    if (sum < -15.0) 
+    if (sum < -15.0)
       return(-0.5);
-    else if (sum > 15.0) 
+    else if (sum > 15.0)
       return(0.5);
-    else 
+    else
       return (1.0 /(1.0 + exp(-sum)) - 0.5);
   case GAUSSIAN:
     /* Gaussian activation function in range 0.0 to 1.0. */
     temp = -0.5 * sum * sum;
-    if (temp < -75.0) 
+    if (temp < -75.0)
       return(0.0);
-    else 
+    else
       return (exp(temp));
-  case ASYMSIGMOID: 
+  case ASYMSIGMOID:
     /* asymmetrical sigmoid function in range 0.0 to 1.0. */
-    if (sum < -15.0) 
+    if (sum < -15.0)
       return(0.0);
-    else if (sum > 15.0) 
+    else if (sum > 15.0)
       return(1.0);
-    else 
+    else
       return (1.0 /(1.0 + exp(-sum)));
-  case VARSIGMOID: 
+  case VARSIGMOID:
     /* Sigmoid function in range SigmoidMin to SigmoidMax. */
-    if (sum < -15.0) 
+    if (sum < -15.0)
       return(SigmoidMin);
-    else if (sum > 15.0) 
+    else if (sum > 15.0)
       return(SigmoidMax);
-    else 
+    else
       return ((SigmoidMax - SigmoidMin)/ (1.0 + exp(-sum)) + SigmoidMin);
   }
 }
@@ -1226,23 +1226,23 @@ float ACTIVATION(float sum)
  *
  * Note: do not use sigmoid prime offset here, as it confuses the
  * correlation machinery.  But do use it in output-prime.
- * 
+ *
  */
 float ACTIVATION_PRIME(float value, float sum)
 {
   switch(UnitType){
-  case SIGMOID: 
+  case SIGMOID:
     /* Symmetrical sigmoid function. */
     return (0.25 -  value*value);
   case GAUSSIAN:
     /* Gaussian activation function. */
     return (sum * (- value));
-  case ASYMSIGMOID: 
+  case ASYMSIGMOID:
     /* asymmetrical sigmoid function in range 0.0 to 1.0. */
     return (value * (1.0 - value));
-  case VARSIGMOID: 
+  case VARSIGMOID:
     /* Sigmoid function with range SigmoidMin to SigmoidMax. */
-    return ((value - SigmoidMin) * (1.0 - (value - SigmoidMin) / 
+    return ((value - SigmoidMin) * (1.0 - (value - SigmoidMin) /
 				    (SigmoidMax - SigmoidMin)));
   }
 }
@@ -1253,32 +1253,32 @@ float ACTIVATION_PRIME(float value, float sum)
 float OUTPUT_FUNCTION(float sum)
 {
   switch(OutputType){
-  case SIGMOID: 
+  case SIGMOID:
     /* Symmetrical sigmoid function, used for binary functions. */
-    if (sum < -15.0) 
+    if (sum < -15.0)
       return(-0.5);
-    else if (sum > 15.0) 
+    else if (sum > 15.0)
       return(0.5);
-    else 
+    else
       return (1.0 /(1.0 + exp(-sum)) - 0.5);
   case LINEAR:
     /* Linear output function, used for continuous functions. */
     return (sum);
-  case ASYMSIGMOID: 
+  case ASYMSIGMOID:
     /* asymmetrical sigmoid function in range 0.0 to 1.0. */
-    if (sum < -15.0) 
+    if (sum < -15.0)
       return(0.0);
-    else if (sum > 15.0) 
+    else if (sum > 15.0)
       return(1.0);
-    else 
+    else
       return (1.0 /(1.0 + exp(-sum)));
-  case VARSIGMOID: 
+  case VARSIGMOID:
     /* Sigmoid function in range SigmoidMin to SigmoidMax. */
-    if (sum < -15.0) 
+    if (sum < -15.0)
       return(SigmoidMin);
-    else if (sum > 15.0) 
+    else if (sum > 15.0)
       return(SigmoidMax);
-    else 
+    else
       return ((SigmoidMax - SigmoidMin)/ (1.0 + exp(-sum))
 	      + SigmoidMin);
   }
@@ -1287,25 +1287,25 @@ float OUTPUT_FUNCTION(float sum)
 /* Compute the value of an output, given the weighted sum of incoming values.
  * Defined output types are SIGMOID, ASYMSIGMOID, and LINEAR.
  *
- * Sigmoid_Prime_Offset used to keep the back-prop error value from going to 
+ * Sigmoid_Prime_Offset used to keep the back-prop error value from going to
  * zero.
  */
 float OUTPUT_PRIME(float output)
 {
   switch(OutputType){
-  case SIGMOID: 
+  case SIGMOID:
     /* Symmetrical sigmoid function, used for binary functions. */
     return (SigmoidPrimeOffset + 0.25 -  output*output);
   case LINEAR:
     /* Linear output function, used for continuous functions. */
     return (1.0);
-  case ASYMSIGMOID: 
+  case ASYMSIGMOID:
     /* asymmetrical sigmoid function in range 0.0 to 1.0. */
     return (SigmoidPrimeOffset + output * (1.0 - output));
-  case VARSIGMOID: 
+  case VARSIGMOID:
     /* Sigmoid function with range SigmoidMin to SigmoidMax. */
-    return (SigmoidPrimeOffset + 
-	    (output - SigmoidMin) * (1.0 - (output - SigmoidMin) / 
+    return (SigmoidPrimeOffset +
+	    (output - SigmoidMin) * (1.0 - (output - SigmoidMin) /
 				     (SigmoidMax - SigmoidMin)));
   }
 }
@@ -1319,8 +1319,8 @@ float OUTPUT_PRIME(float output)
  * slope[i] to prev[i] and zero out slope[i].  Add weight decay term to
  * each slope before doing the update.
  */
-void QUICKPROP_UPDATE(int i, float weights[], float deltas[], float slopes[], 
-		      float prevs[], float epsilon, float decay, float mu, 
+void QUICKPROP_UPDATE(int i, float weights[], float deltas[], float slopes[],
+		      float prevs[], float epsilon, float decay, float mu,
 		      float shrink_factor)
 {
   float w,d,s,p, next_step;
@@ -1334,24 +1334,24 @@ void QUICKPROP_UPDATE(int i, float weights[], float deltas[], float slopes[],
 
   /* The step must always be in direction opposite to the slope. */
 
-  if(d < 0.0){			
-    /* If last step was negative...  */  
-    if(s > 0.0)	  
+  if(d < 0.0){
+    /* If last step was negative...  */
+    if(s > 0.0)
       /*  Add in linear term if current slope is still positive.*/
       next_step -= epsilon * s;
     /*If current slope is close to or larger than prev slope...  */
-    if(s >= (shrink_factor*p)) 
+    if(s >= (shrink_factor*p))
       next_step += mu * d;	/* Take maximum size negative step. */
     else
       next_step += d * s / (p - s); /* Else, use quadratic estimate. */
   }
   else if(d > 0.0){
     /* If last step was positive...  */
-    if(s < 0.0)	  
+    if(s < 0.0)
       /*  Add in linear term if current slope is still negative.*/
       next_step -= epsilon * s;
     /* If current slope is close to or more neg than prev slope... */
-    if(s <= (shrink_factor*p)) 
+    if(s <= (shrink_factor*p))
       next_step += mu * d;	/* Take maximum size negative step. */
     else
       next_step += d * s / (p - s); /* Else, use quadratic estimate. */
@@ -1359,7 +1359,7 @@ void QUICKPROP_UPDATE(int i, float weights[], float deltas[], float slopes[],
   else
     /* Last step was zero, so use only linear term. */
     next_step -= epsilon * s;
-  
+
   /* update global data arrays */
   deltas[i] = next_step;
   weights[i] = w + next_step;
@@ -1453,7 +1453,7 @@ void  FULL_FORWARD_PASS(float input[])
  *  record the output errors for the current training case.  Record error
  *  values and related statistics.  If output_slopesp is TRUE, then use errors
  *  to compute slopes for output weights.  If statsp is TRUE, accumulate error
- *  statistics. 
+ *  statistics.
  */
 void COMPUTE_ERRORS(float goal[], BOOLEAN output_slopesp, BOOLEAN statsp)
 {
@@ -1529,7 +1529,7 @@ void TRAIN_OUTPUTS_EPOCH(void)
   }
   SumSqError = 0.0;
 
-  
+
   /* User may have changed mu between epochs, so fix shrink-factor. */
   OutputShrinkFactor = OutputMu / (1.0 + OutputMu);
 
@@ -1549,7 +1549,7 @@ void TRAIN_OUTPUTS_EPOCH(void)
     COMPUTE_ERRORS(Goal, TRUE, TRUE);
     OUT_PASS_USER_INTERFACE();
   }
- 
+
   switch (ErrorMeasure){
   case BITS:
     /* Do not change weights or count epoch if this run was a winner. */
@@ -1567,8 +1567,8 @@ void TRAIN_OUTPUTS_EPOCH(void)
     }
     break;
   }
-    
-  OUT_EPOCH_USER_INTERFACE(); 
+
+  OUT_EPOCH_USER_INTERFACE();
 }
 
 /* Train the output weights.  If we exhaust max_epochs, stop with value
@@ -1591,7 +1591,7 @@ int TRAIN_OUTPUTS(int max_epochs)
   for(i=0; i<max_epochs; i++){
     TRAIN_OUTPUTS_EPOCH();
 
-    if((ErrorMeasure == BITS) && 
+    if((ErrorMeasure == BITS) &&
        (ErrorBits == 0)){
 	retval = WIN;
 	break;
@@ -1711,7 +1711,7 @@ void INSTALL_NEW_UNIT(void)
 
   /* Reinitialize candidate units with random weights.                  */
   Nunits++;
-  INIT_CANDIDATES();    
+  INIT_CANDIDATES();
 
 }
 
@@ -1858,13 +1858,13 @@ void UPDATE_INPUT_WEIGHTS(void)
     cs = CandSlopes[u];
     cp = CandPrevSlopes[u];
     for(i=0; i<Nunits; i++)
-      QUICKPROP_UPDATE(i, cw, cd, cs, cp, eps, InputDecay, InputMu, 
+      QUICKPROP_UPDATE(i, cw, cd, cs, cp, eps, InputDecay, InputMu,
 		       InputShrinkFactor);
   }
 }
 
 /* For each training pattern, perform a forward pass and compute correlations.
- * Then perform a second forward pass and compute input slopes for the 
+ * Then perform a second forward pass and compute input slopes for the
  * candidate units.  Finally, use quickprop update to adjust the input weights.
  */
 
@@ -1980,7 +1980,7 @@ int TRAIN_INPUTS(int max_epochs)
 void LIST_PARAMETERS(void)
 {
 #ifdef __STDC__			/* does is compiler conform to the standard? */
-  printf("\nCascor.c Version: %5.2f %s   Compiled: %s  %s\n", 
+  printf("\nCascor.c Version: %5.2f %s   Compiled: %s  %s\n",
 	 VERSION, REL_DATE, __DATE__, __TIME__);
 #else
   printf("\nCascor.c Version: %5.2f  %s\n", VERSION, REL_DATE);
@@ -2033,14 +2033,14 @@ int TRAIN(int outlimit, int inlimit, int  rounds, BOOLEAN interact)
         "Victory at %d epochs, %d units, %d hidden, Error %6.4f EI %6.4f.\n",
 	     Epoch, Nunits, (Nunits - Ninputs - 1), TrueError, ErrorIndex);
       return(WIN);
-    case TIMEOUT:      
+    case TIMEOUT:
       printf("Out Timeout: ");
-      PRINT_SUMMARY(); 
+      PRINT_SUMMARY();
       printf("\n");
       break;
     case STAGNANT:
       printf("Out Stagnant: ");
-      PRINT_SUMMARY(); 
+      PRINT_SUMMARY();
       printf("\n");
       break;
     default:
@@ -2051,7 +2051,7 @@ int TRAIN(int outlimit, int inlimit, int  rounds, BOOLEAN interact)
     if(Test)TEST_EPOCH(0.49);	 /* how are we doing? */
 
     switch(TRAIN_INPUTS(inlimit)){
-    case TIMEOUT:      
+    case TIMEOUT:
       printf("Epoch %d: In Timeout  Correlation: %6.4f\n",
 	     Epoch, BestCandidateScore);
       break;
@@ -2072,7 +2072,7 @@ int TRAIN(int outlimit, int inlimit, int  rounds, BOOLEAN interact)
       printf("Victory at %d epochs, %d units, %d hidden, Error %6.4f EI %6.4f.\n",
 	     Epoch, Nunits, (Nunits - Ninputs - 1), TrueError, ErrorIndex);
       return(WIN);
-    case TIMEOUT: case STAGNANT:      
+    case TIMEOUT: case STAGNANT:
       printf("Defeat at %d units, ", Nunits);
       PRINT_SUMMARY();
       printf("\n");
@@ -2081,7 +2081,7 @@ int TRAIN(int outlimit, int inlimit, int  rounds, BOOLEAN interact)
       printf("Bad return from TRAIN_OUTPUTS");
       break;
     }
- 
+
 }
 
 
@@ -2109,7 +2109,7 @@ void TEST_EPOCH(float test_threshold)
   Errors = ExtraErrors;
   /* If no separate test inputs, use training inputs. */
   if(NTestPatterns == 0){
-    TestInputs = TrainingInputs;    
+    TestInputs = TrainingInputs;
     TestOutputs = TrainingOutputs;
     NTestPatterns = NTrainingPatterns;
   }
@@ -2126,7 +2126,7 @@ void TEST_EPOCH(float test_threshold)
     FULL_FORWARD_PASS(TestInputs[i]);
     COMPUTE_ERRORS(Goal, FALSE, TRUE);
     OUT_PASS_USER_INTERFACE();
-  } 
+  }
   if(ErrorMeasure == INDEX)
     ErrorIndex = ERROR_INDEX(TestStdDev, NtestOutputValues);
   printf("  Test set:: ");
@@ -2134,14 +2134,14 @@ void TEST_EPOCH(float test_threshold)
   printf("\n");
 
   /* restore globals */
-  UseCache = old_UC;		
+  UseCache = old_UC;
   ScoreThreshold = old_ST;
-  TrueError = old_TE;	
-  SumErrors = old_SE;	
+  TrueError = old_TE;
+  SumErrors = old_SE;
   SumSqError = old_SSE;
 
 }
-  
+
 /* dummy functions until I put in a X interface */
 
 void OUT_PASS_USER_INTERFACE(void)
@@ -2177,7 +2177,7 @@ void OUT_EPOCH_USER_INTERFACE(void)
 	if(Y_OR_N_P("Change some parameters?")) INTERACTIVE_PARM_UPDATE();
 	SingleEpoch = Y_OR_N_P("Keep Stepping?");
 	Step = TRUE;
-      }   
+      }
   CHECK_INTERRUPT();
 }
 
@@ -2196,7 +2196,7 @@ void IN_EPOCH_USER_INTERFACE(void)
 	if(Y_OR_N_P("Change some parameters?")) INTERACTIVE_PARM_UPDATE();
 	SingleEpoch = Y_OR_N_P("Keep Stepping?");
 	Step = TRUE;
-      }     
+      }
   CHECK_INTERRUPT();
 }
 
@@ -2238,14 +2238,14 @@ void IN_EPOCH_OUTPUT(void)
       for(j=0;j<Nunits;j++)
 	printf("%6.4f ", CandWeights[i][j]);
     }
-    
+
     printf("\n\nCandidateDeltas: ");
     for(i=0;i<Ncandidates;i++){
       printf("\nCandidate %d::", i+1);
       for(j=0;j<Nunits;j++)
 	printf("%6.4f ", CandDeltas[i][j]);
     }
-    
+
     printf("\n\nCandidate Correlations: ");
     for(i=0;i<Ncandidates;i++){
       printf("\nCandidate %d::", i+1);
@@ -2262,7 +2262,7 @@ void IN_EPOCH_OUTPUT(void)
 void OUT_EPOCH_OUTPUT(void)
 {
   int i,j;
-  
+
   PRINT_SUMMARY();
 
   if(SingleEpoch){
@@ -2272,7 +2272,7 @@ void OUT_EPOCH_OUTPUT(void)
       for(j=0;j<Nunits;j++)
 	printf("%6.4f ", OutputWeights[i][j]);
     }
-    
+
     printf("\n\nOutputDeltas: ");
     for(i=0;i<Noutputs;i++){
       printf("\nOutput Unit %d::", i+1);
@@ -2308,7 +2308,7 @@ void PRINT_SUMMARY(void)
 extern double atof();
 extern char *strtok();
 #endif
-  
+
 /* Convert '\0' terminated sting to all lower case characters.  This routine
  * is destructive.
  */
@@ -2332,7 +2332,7 @@ void strdncase(char *s)
 int FIND_KEY(char *searchkey)
 {
   int lower = 0;
-  int upper = Nparameters - 1; 
+  int upper = Nparameters - 1;
   int m,dif;
   /************/
 
@@ -2348,17 +2348,17 @@ int FIND_KEY(char *searchkey)
     else if(dif > 0)
       lower = m + 1;		/* look in upper half */
   }
-  
+
   /* search failed */
   return(FAILURE);
 }
 
-/* Parse a line of input into keyword value pairs and reset the given 
+/* Parse a line of input into keyword value pairs and reset the given
  * parameters to given values.  Comment lines start with the character
  * '#' and are ignored.  If a bad keyword is given a message is printed,
- * but processing continues.  The routine returns a value telling the 
- * calling routine whether to grap another line, read in  the training, 
- * or read in testing data.  The special keywords "Training", and 
+ * but processing continues.  The routine returns a value telling the
+ * calling routine whether to grap another line, read in  the training,
+ * or read in testing data.  The special keywords "Training", and
  * "Testing" signal the changes in status.
  */
 int PROCESS_LINE(char *line)
@@ -2383,7 +2383,7 @@ int PROCESS_LINE(char *line)
 	valtok = strtok(NULL, seperators);
 
 	/* read value in correct format */
-	switch(ParmTable[k].vartype){ 
+	switch(ParmTable[k].vartype){
 	case INT: case INT_NO:
 	  *(int *)ParmTable[k].varptr = atoi(valtok);
 	  break;
@@ -2411,32 +2411,32 @@ int PROCESS_LINE(char *line)
 	  INIT_DUMP_FILES(valtok);
 	  break;
 	case GO: case VALUE: case BOMB: case SAVE:
-	  sprintf(ErrMsg, 
+	  sprintf(ErrMsg,
 		  "%s keyword only legal in interactive mode.", keytok);
 	  ERROR(WARN, ErrMsg);
 	  break;
 	default:
-	  sprintf(ErrMsg, 
-		  "%d: bad vartype for parameter %s.  No update performed.", 
+	  sprintf(ErrMsg,
+		  "%d: bad vartype for parameter %s.  No update performed.",
 		  ParmTable[k].vartype, keytok);
 	  ERROR(WARN, ErrMsg);
 	  break;
 	}
       }
       else{			/* bad key */
-	sprintf(ErrMsg, 
+	sprintf(ErrMsg,
 		"%s: not in parameter table.  No update performed.", keytok);
 	ERROR(WARN, ErrMsg);
       }
       /* get next keyword token */
-      keytok = strtok(NULL, seperators);	
+      keytok = strtok(NULL, seperators);
     }				/* end while still keytok */
     return(NEXTLINE);
   }				/* end if comment */
 }
 
 
-/* Allow the user to interactively change parameters.  First they enter a 
+/* Allow the user to interactively change parameters.  First they enter a
  * parameter name, then the new value.  "GO" causes the function
  * to return.
  */
@@ -2447,7 +2447,7 @@ void INTERACTIVE_PARM_UPDATE(void)
   /*************/
 
   /* clear interrupt */
-  InterruptPending = FALSE;	
+  InterruptPending = FALSE;
 
   printf("Type <parameter name> to inspect or change the current value \n");
   printf("  of <parameter name>.\n");
@@ -2455,19 +2455,19 @@ void INTERACTIVE_PARM_UPDATE(void)
   printf("Type 'values' to inspect the current values of all parameters\n");
 
   printf("Enter Parameter: "); scanf("%s", keytok);
-  
+
   while(strcmp(keytok, "")){
     if(keytok[0] == '?'){
       printf("Type <parameter name> to inspect or change the current value \n");
       printf("  of <parameter name>.\n");
       printf("Type 'go' to continue simulation or 'quit' to stop.\n");
       printf("Type 'values' to inspect the current values of all parameters\n");
-    }      
+    }
     else{
       k = FIND_KEY(keytok);
       if(k != FAILURE){
 	/* read value in correct format */
-	switch(ParmTable[k].vartype){ 
+	switch(ParmTable[k].vartype){
 	case INT: case FLOAT: case ENUM: case BOOLE:
 	  PROMPT_FOR_VALUE(k);
 	  break;
@@ -2490,15 +2490,15 @@ void INTERACTIVE_PARM_UPDATE(void)
 	  INIT_DUMP_FILES(keytok);
 	  break;
 	default:
-	  sprintf(ErrMsg, 
-		  "%d: bad vartype for variable %s.  No update performed.", 
+	  sprintf(ErrMsg,
+		  "%d: bad vartype for variable %s.  No update performed.",
 		  ParmTable[k].vartype, keytok);
 	  ERROR(WARN, ErrMsg);
 	  break;
 	}
       }
       else{			/* bad key */
-	sprintf(ErrMsg, 
+	sprintf(ErrMsg,
 		"%s: not in parameter table.  Try again.", keytok);
 	ERROR(WARN, ErrMsg);
       }
@@ -2506,7 +2506,7 @@ void INTERACTIVE_PARM_UPDATE(void)
     /* get next keyword token */
     printf("Enter Parameter: "); scanf("%s", keytok);
   }				/* end while still keytok */
-}				
+}
 
 void PROMPT_FOR_VALUE(int k)
 {
@@ -2514,25 +2514,25 @@ void PROMPT_FOR_VALUE(int k)
   /***************/
 
   /* read value in correct format */
-  switch(ParmTable[k].vartype){ 
+  switch(ParmTable[k].vartype){
   case INT:
-    printf("%s[%d]: ", ParmTable[k].keyword, 
+    printf("%s[%d]: ", ParmTable[k].keyword,
 	   *(int *)ParmTable[k].varptr);
     scanf("%d", (int *)ParmTable[k].varptr);
     break;
   case FLOAT:
-    printf("%s[%6.4f]: ", ParmTable[k].keyword, 
+    printf("%s[%6.4f]: ", ParmTable[k].keyword,
 	   *(float *)ParmTable[k].varptr);
     scanf("%f", (float *)ParmTable[k].varptr);
     break;
   case ENUM:
-    printf("%s[%s]: ", ParmTable[k].keyword, 
+    printf("%s[%s]: ", ParmTable[k].keyword,
 	   TYPE_STRING(*(int *)ParmTable[k].varptr));
     scanf("%s", valtok);
     *(int *)ParmTable[k].varptr = TYPE_CONVERT(valtok);
     break;
   case BOOLE:
-    printf("%s[%s]: ", ParmTable[k].keyword, 
+    printf("%s[%s]: ", ParmTable[k].keyword,
 	   BOOLE_STRING(*(int *)ParmTable[k].varptr));
     scanf("%s", valtok);
     *(int *)ParmTable[k].varptr = TYPE_CONVERT(valtok);
@@ -2551,25 +2551,25 @@ void LIST_ALL_VALUES(void)
 
 void PRINT_VALUE(int k)
 {
-  switch(ParmTable[k].vartype){ 
+  switch(ParmTable[k].vartype){
   case INT: case INT_NO:
-    printf(" %s[%d]\n", ParmTable[k].keyword, 
+    printf(" %s[%d]\n", ParmTable[k].keyword,
 	   *(int *)ParmTable[k].varptr);
     break;
   case FLOAT: case FLOAT_NO:
-    printf(" %s[%6.4f]\n", ParmTable[k].keyword, 
+    printf(" %s[%6.4f]\n", ParmTable[k].keyword,
 	   *(float *)ParmTable[k].varptr);
     break;
   case ENUM: case ENUM_NO:
-    printf(" %s[%s]\n", ParmTable[k].keyword, 
+    printf(" %s[%s]\n", ParmTable[k].keyword,
 	   TYPE_STRING(*(int *)ParmTable[k].varptr));
     break;
   case BOOLE: case BOOLE_NO:
-    printf(" %s[%s]\n", ParmTable[k].keyword, 
+    printf(" %s[%s]\n", ParmTable[k].keyword,
 	   BOOLE_STRING(*(int *)ParmTable[k].varptr));
     break;
   case INITFILE:
-    printf(" %s[%s]\n", ParmTable[k].keyword, 
+    printf(" %s[%s]\n", ParmTable[k].keyword,
 	   BOOLE_STRING(DumpWeights));
     break;
   default:
@@ -2581,7 +2581,7 @@ int TYPE_CONVERT(char *input)
 {
   char ErrorMessage[80];
     strdncase(input);
-  
+
   if(!strcmp(input,"true"))
     return(TRUE);
   else if(!strcmp(input,"1"))	/* allow backward compatiple input */
@@ -2611,7 +2611,7 @@ int TYPE_CONVERT(char *input)
 }
 
 /* Input of the type variables and return a string showing its value.  This
- * is only used as a output routine for the user's convenience. 
+ * is only used as a output routine for the user's convenience.
  */
 char *TYPE_STRING(int var)
 {
@@ -2638,7 +2638,7 @@ char *TYPE_STRING(int var)
     return("BITS");
   case INDEX:
     return("INDEX");
-  default: 
+  default:
     return("Bad type");
 
  }
@@ -2651,11 +2651,11 @@ char *BOOLE_STRING(int var)
     return("FALSE");
   case TRUE:
     return("TRUE");
-  default: 
+  default:
     return("Bad BOOLEAN type");
  }
 }
-  
+
 BOOLEAN Y_OR_N_P(char *prompt)
 {
   char response[LINELEN+1];
@@ -2666,7 +2666,7 @@ BOOLEAN Y_OR_N_P(char *prompt)
 
   if((response[0] == 'y') || (response[0] == 'Y'))
     return(TRUE);
-  else 
+  else
     return(FALSE);
 }
 
@@ -2675,7 +2675,7 @@ BOOLEAN Y_OR_N_P(char *prompt)
 /*   Thanks to Dimitris Michailidis for this code.                  */
 /********************************************************************/
 
-/* allow user to change parameters if they have hit Control-C 
+/* allow user to change parameters if they have hit Control-C
  */
 void CHECK_INTERRUPT(void)
 {
@@ -2685,7 +2685,7 @@ void CHECK_INTERRUPT(void)
   }
 }
 
-/* Record an interrupt whenever the user presses Control-C 
+/* Record an interrupt whenever the user presses Control-C
  */
 void TRAP_CONTROL_C(int sig)
 {
@@ -2695,7 +2695,7 @@ void TRAP_CONTROL_C(int sig)
 
 
 
-/* Convert the target output value to SigmoidMax or SigmoidMin given 
+/* Convert the target output value to SigmoidMax or SigmoidMin given
  * "max" or "min".  Otherwise assume float value.  Thanks to Dimitris
  *  Michailidis for this code.
  */
@@ -2719,10 +2719,10 @@ void GET_TRAINING_DATA(FILE *infile)
 
     for (i=0; i<NTrainingPatterns; i++){
       /* look at 1st char of next line. */
-      peek = fgetc(infile); ungetc(peek, infile); 
+      peek = fgetc(infile); ungetc(peek, infile);
       if(peek == '#' || peek == '\n'){
 	/* Throw away the line if it is a comment or blank. */
-	fgets(foo, LINELEN, infile); 
+	fgets(foo, LINELEN, infile);
 	i--;
       }
       else{
@@ -2749,10 +2749,10 @@ void GET_TEST_DATA(FILE *infile)
 
     for (i=0; i<NTestPatterns; i++){
       /* look at 1st char of next line. */
-      peek = fgetc(infile); ungetc(peek, infile); 
+      peek = fgetc(infile); ungetc(peek, infile);
       if(peek == '#' || peek == '\n'){
 	/* Throw away the line if it is a comment or blank. */
-	fgets(foo, LINELEN, infile); 
+	fgets(foo, LINELEN, infile);
 	i--;
       }
       else{
@@ -2766,7 +2766,7 @@ void GET_TEST_DATA(FILE *infile)
     }
 }
 
-/* Get the training data from a seperate file.  Open the file and 
+/* Get the training data from a seperate file.  Open the file and
  * call GET_TRAINIING_DATA.  Uses global T_T_files for file name.
  */
 void GET_TRAINING_DATA_FILE(void)
@@ -2787,7 +2787,7 @@ void GET_TRAINING_DATA_FILE(void)
   fclose(infile);
 }
 
-/* Get the test data from a seperate file.  Open the file and 
+/* Get the test data from a seperate file.  Open the file and
  * call GET_TRAINIING_DATA.  Uses global T_T_files for file name.
  */
 void GET_TEST_DATA_FILE(void)
@@ -2827,7 +2827,7 @@ void INTERACT_SAVE_FILES(void)
     INTERACT_DUMP_WEIGHTS();
 }
 
-/* Ask the user for a file name. Then save all parameters and the training set 
+/* Ask the user for a file name. Then save all parameters and the training set
  * so that they can rerun the simulation.
  */
 void SAVE_NET_FILE(void)
@@ -2878,30 +2878,30 @@ void SAVE_PARM_VALUE(FILE *fout, int k)
   if(k == 0)
     numprinted = 0;
 
-  switch(ParmTable[k].vartype){ 
+  switch(ParmTable[k].vartype){
   case INT: case INT_NO:
-    fprintf(fout, "%s %d   ", ParmTable[k].keyword, 
+    fprintf(fout, "%s %d   ", ParmTable[k].keyword,
 	    *(int *)ParmTable[k].varptr);
     numprinted++;
     if((numprinted%3) == 0)
       fprintf(fout,"\n");
     break;
   case FLOAT: case FLOAT_NO:
-    fprintf(fout, "%s %f   ", ParmTable[k].keyword, 
+    fprintf(fout, "%s %f   ", ParmTable[k].keyword,
 	    *(float *)ParmTable[k].varptr);
     numprinted++;
     if((numprinted%3) == 0)
       fprintf(fout,"\n");
     break;
   case ENUM: case ENUM_NO:
-    fprintf(fout, "%s %s   ", ParmTable[k].keyword, 
+    fprintf(fout, "%s %s   ", ParmTable[k].keyword,
 	    TYPE_STRING(*(int *)ParmTable[k].varptr));
     numprinted++;
     if((numprinted%3) == 0)
       fprintf(fout,"\n");
     break;
   case BOOLE: case BOOLE_NO:
-    fprintf(fout, "%s %s   ", ParmTable[k].keyword, 
+    fprintf(fout, "%s %s   ", ParmTable[k].keyword,
 	    BOOLE_STRING(*(int *)ParmTable[k].varptr));
     numprinted++;
     if((numprinted%3) == 0)
@@ -2919,7 +2919,7 @@ void SAVE_TRAINING_SET(FILE *fout)
 {
   int i,j;
   /**************/
-  
+
   fprintf(fout, "Training\n");	/* give keyword */
   for (i=0; i<NTrainingPatterns; i++)
     {
@@ -2930,7 +2930,7 @@ void SAVE_TRAINING_SET(FILE *fout)
 
       for (j=0; j<Noutputs; j++)
 	fprintf (fout, "%8.6g ", TrainingOutputs[i][j]);
-      
+
       fprintf(fout, "\n");	/* make it easy for humans to read */
    }
 }
@@ -2941,7 +2941,7 @@ void SAVE_TEST_SET(FILE *fout)
 {
   int i,j;
   /**************/
-  
+
   fprintf(fout, "Testing\n");	/* give keyword */
   for (i=0; i<NTestPatterns; i++)
     {
@@ -2982,10 +2982,10 @@ void INTERACT_DUMP_WEIGHTS(void)
 }
 
 /* Dump the weights for the current net into the given file.
- * The file will contain Nunits, Noutputs, Nconnections, Weights, and 
+ * The file will contain Nunits, Noutputs, Nconnections, Weights, and
  * OutputWeights.
  *
- * It is assumed that each hidden unit is connect to all lower numbered 
+ * It is assumed that each hidden unit is connect to all lower numbered
  * units.  Therefore, Connections does not need to be saved.  The network
  * will be rebuilt using AllConnectionns.
  */
@@ -3032,8 +3032,8 @@ void INTERACT_GET_WEIGHTS(void)
 }
 
 /* Read a .wgt file and do limited consistency checking with the input
- * from the .net file.  Space must be allocated for the Weight vectors in 
- * this routine.  During normal training the space is allocated in 
+ * from the .net file.  Space must be allocated for the Weight vectors in
+ * this routine.  During normal training the space is allocated in
  * INSTALL_NEW_UNIT.
  */
 void GET_WEIGHTS(char *realfname)
@@ -3055,10 +3055,10 @@ void GET_WEIGHTS(char *realfname)
   /* loop through comment lines */
   while(TRUE){
     /* look at 1st char of next line. */
-    peek = fgetc(fwgt); ungetc(peek, fwgt); 
+    peek = fgetc(fwgt); ungetc(peek, fwgt);
     if(peek == '#' || peek == '\n'){
       /* Throw away the line if it is a comment or blank. */
-      fgets(junk, 1024, fwgt); 
+      fgets(junk, 1024, fwgt);
     }
     else
       break;
@@ -3067,13 +3067,13 @@ void GET_WEIGHTS(char *realfname)
   fscanf(fwgt, "%d %d", &nunits, &noutputs);
   /* check to see if this matches the .net file inputs. */
   if(noutputs != Noutputs){
-    sprintf(ErrMsg, 
+    sprintf(ErrMsg,
       "noutputs in .wgt file does not match Noutputs in .net.\n  Training will start from scratch.");
     ERROR(WARN, ErrMsg);
     return;
   }
   if(nunits > MaxUnits){
-    sprintf(ErrMsg, 
+    sprintf(ErrMsg,
       "nunits(%d) in .wgt file is greater than MaxUnits in .net\n  Please change MaxUnits and try again.", nunits);
     ERROR(FATAL, ErrMsg);
   }
@@ -3089,7 +3089,7 @@ void GET_WEIGHTS(char *realfname)
   /* Get Input Weights */
   for(i=0; i<Nunits; i++)
     if(Nconnections[i]){
-      w = (float *)GET_ARRAY_MEM(Nconnections[i], sizeof(float),fn);   
+      w = (float *)GET_ARRAY_MEM(Nconnections[i], sizeof(float),fn);
       for(j=0; j<Nconnections[i]; j++)
 	fscanf(fwgt, "%f", &w[j]);
       Weights[i] = w;
@@ -3110,7 +3110,7 @@ void GET_WEIGHTS(char *realfname)
 
       /* Unit values must be calculated in order because the activations */
       /* cascade down through the hidden layers */
-      for(j= 1+Ninputs; j<Nunits; j++) 
+      for(j= 1+Ninputs; j<Nunits; j++)
 	COMPUTE_UNIT_VALUE(j);
     }
 }
@@ -3128,7 +3128,7 @@ void SETUP_DUMP_FILES(void)
 {
   char rfname[LINELEN+1];	/* buffer to construct full file names into */
   /***********/
-  
+
   DumpWeights = FALSE;		/* reset in case file opens fail */
 
   sprintf(rfname, "%s-%d.wgt", DumpFileRoot, Trial);
@@ -3143,7 +3143,7 @@ void SETUP_DUMP_FILES(void)
 }
 
 
-/* ErrorIndex is the rms TrueError normalized by the standard deviation of the 
+/* ErrorIndex is the rms TrueError normalized by the standard deviation of the
  * goal set.
  */
 float ERROR_INDEX(float std_dev, int num)
@@ -3250,7 +3250,7 @@ Testing
 ----------------------- end of zigzag.net ------------------------------*/
 
 Running the code with this example looks like this:
- 
+
 > % cascor
 > Enter name of network: zigzag
 > Number of epochs to train inputs: 50
@@ -3260,10 +3260,10 @@ Running the code with this example looks like this:
 > Change some parameters? (y or n) n
 >        ********* progress reports deleted *********
 ;;
-;;   Hit Control-C to interrupt simulation 
+;;   Hit Control-C to interrupt simulation
 ;;
 > ^CSimulation interrupted at epoch 215
-> Type <parameter name> to inspect or change the current value 
+> Type <parameter name> to inspect or change the current value
 >   of <parameter name>.
 > Type 'go' to continue simulation.
 > Type 'values' to inspect the current values of all parameters
@@ -3277,17 +3277,17 @@ Running the code with this example looks like this:
 > IMu 2.00, IEps 1.00, IDcy 0.00000, IPat 8, IChange 0.03
 > Utype: SIGMOID, Otype: SIGMOID, Pool 16
 > Victory at 3 epochs, 2 units, 0 hidden, Error 2.6479.
-> 
-> 
+>
+>
 > TRAINING LOOP STATS
-> 
+>
 > Cascor.c Version:  1.14  Jul-18-90
 > SigOff 0.10, WtRng 1.10, WtMul 1.00
 > OMu 2.00, OEps 0.35, ODcy 0.00010, OPat 8, OChange 0.00
 > IMu 2.00, IEps 1.00, IDcy 0.00000, IPat 8, IChange 0.03
 > Utype: SIGMOID, Otype: SIGMOID, Pool 16
-> 
->  Victories: 3, Defeats: 0, 
+>
+>  Victories: 3, Defeats: 0,
 >    Training Epochs - Min: 3, Avg: 196,  Max: 306,
 >    Hidden Units -    Min: 0, Avg:  2.7,  Max: 4,
 > Do you want to run more trials? (y or n) n
@@ -3323,9 +3323,9 @@ main()
   fprintf(foo, "Ninputs %d  Noutputs %d\n", 2,1);
   fprintf(foo, "UnitType SIGMOID     OutputType SIGMOID\n");
   fprintf(foo, "UseCache TRUE\n");
-  fprintf(foo, "NTrainingPatterns %d  NTestPatterns %d\n", 
+  fprintf(foo, "NTrainingPatterns %d  NTestPatterns %d\n",
 	  (2 * NUMPAIRS), (2 * NUMPAIRS));
-  fprintf(foo, 
+  fprintf(foo,
 	  "# set the Test parameter to TRUE so we can watch generalization\n");
   fprintf(foo, "Test TRUE\n");
   fprintf(foo, "Training\n");
@@ -3351,7 +3351,7 @@ main()
     fprintf(foo, "%8.5f %8.5f     %3.1f\n",  x,  y,  0.5);
     fprintf(foo, "%8.5f %8.5f     %3.1f\n", -x, -y, -0.5);
   }
- 
+
   fclose(foo);
 }
 

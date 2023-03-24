@@ -71,7 +71,7 @@ int dequeue  ( queue *this_queue, void *data )
   queue_node *old_node;		/*  A pointer to the node being removed  */
 
   if  ( !QUEUE_ISEMPTY( *this_queue ) )  {
-    
+
     /*  Copy the data over to the pointer  */
 
     memcpy  ( data, this_queue -> head -> data, this_queue -> head -> size );
@@ -127,9 +127,9 @@ int  dequeue_p  ( queue *this_queue, void **data )
     /*  Free the memory used by the old data node  */
 
     free( old_node );
-    
+
     (this_queue -> num_elem)--;
-    
+
     return data_size;
   }
   return 0;
@@ -139,11 +139,11 @@ int  dequeue_p  ( queue *this_queue, void **data )
 /*	FLUSH_QUEUE -  This function discards the contents of the queue
 	specified.
 */
-      
+
 void flush_queue  ( queue *this_queue )
 {
   queue_node *temp;	/*  Temporary pointer to help delete nodes  */
- 
+
   while  ( !QUEUE_ISEMPTY( *this_queue ) )  {
 
     /*  Unlink the head node  */

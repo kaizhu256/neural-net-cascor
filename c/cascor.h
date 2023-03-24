@@ -16,7 +16,7 @@
 
 /*	Data Enumeration Definitions	*/
 
-typedef enum  {		/*  This enumeration describes the four modes the  */ 
+typedef enum  {		/*  This enumeration describes the four modes the  */
   TRAINING,		/* network can enter into during training.	   */
   TIMEOUT,		/* TRAINING means that the network is still        */
   STAGNANT,		/* training.  TIMEOUT means that the network       */
@@ -51,7 +51,7 @@ typedef enum  {		/*  An enumeration of the various unit types.	*/
 /*	NET_DATA -  Holds weights and values for the network as a whole
 */
 
-typedef struct  {	
+typedef struct  {
   unit_type  *unitTypes;  /*  Unit types for each unit in the network       */
   float      *values,	  /*  Activation value of each unit in the network  */
             **weights;	  /*  Value of weights connecting the units	  */

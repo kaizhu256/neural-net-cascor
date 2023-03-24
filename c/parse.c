@@ -61,14 +61,14 @@
 
 	    bin_pos,    -  The values to give positive negative binary
             bin_neg        values, respectively.  For sigmoid outputs, these
-	                   should be 0.5 and -0.5.  
+	                   should be 0.5 and -0.5.
 
 	    network     -  The address of the data structure to store the
 			   information in.  The structure must be of type
 			   'net_info', and memory must already be allocated
 			   for it.
 
-	  
+
 	  discard_net  ( net_info *network );
 
 	    This procedure destroys the internal data structures built inside
@@ -92,7 +92,7 @@
 
 	  out_type      -  This is an array with a number of elements equal
 	                   to the number of outputs in the network.  An
-			   element in this array is set to BINARY if it 
+			   element in this array is set to BINARY if it
 			   corrosponds to an output that is binary (i.e. it is
 			   either one value or another) and set to CONT if
 			   that node is a standard floating point number.
@@ -112,7 +112,7 @@
 			   outputs.
 
 		Examples:
-        	
+
 		net.train[56].inputs[4] indicates the 5th input in the 57th
 		training point in the network 'net'.
 
@@ -136,7 +136,7 @@
 				rejected as unknown node types.  Fixed
 				another bug that caused datasets with more
 				than one output to be rejected as having too
-				few outputs.  Thanks to Iain Strachan for 
+				few outputs.  Thanks to Iain Strachan for
 				pointing this out.
 	9/24/93		1.0	Initial Release
 */
@@ -178,7 +178,7 @@
 
 typedef struct {
   char    *name;
-  float   *equiv;  
+  float   *equiv;
 } enum_cvrt;
 
 
@@ -203,7 +203,7 @@ typedef struct {
   float     bin_pos,            /*  Value to assign positive binary values  */
             bin_neg;            /*  Value to assign negative binary values  */
   char      parse_table [NUM_COMMANDS][16];	/* Table of commands */
-  enum_cvrt **input_table,	/*  Table of input enumerations  */ 
+  enum_cvrt **input_table,	/*  Table of input enumerations  */
             **output_table;	/*  Table of output enumerations  */
   queue     data;		/*  Queue to hold the data points read  */
 } parse_info;
@@ -236,7 +236,7 @@ void  set_in		( char *, parse_info *, net_info * );
 void  set_out           ( char *, parse_info * );
 void  set_cont	        ( int * );
 void  set_binary    	( float, float, int *, int *, enum_cvrt ** );
-void  set_enum	        ( float, float, char *, int *, int *, enum_cvrt **, 
+void  set_enum	        ( float, float, char *, int *, int *, enum_cvrt **,
                           int );
 
 void  data_line         ( char *, parse_info *, net_info * );
@@ -244,7 +244,7 @@ char  *get_token        ( char * );
 void  lookup_token      ( char *, int, float *, enum_cvrt *, int, int * );
 
 float  *get_equiv	( int, int, int, float, float );
-int    num_bin_nodes	( int ); 
+int    num_bin_nodes	( int );
 char   *itoa            ( int, char * );
 
 void   parse_err	( int, char * );
@@ -273,7 +273,7 @@ int  parse  ( char *filename, int parameters, float bin_pos, float bin_neg,
   parse_info parse_data;	/*  Information needed to parse the file */
   int        err_no = 0;        /*  Parse error that was received  */
 
-  /*  Mark place in case there is an error in the data set	*/  
+  /*  Mark place in case there is an error in the data set	*/
 
   if  ( (err_no = setjmp (error_trap)) != 0 )  {
     if  ( err_no != 26 )  {
@@ -286,7 +286,7 @@ int  parse  ( char *filename, int parameters, float bin_pos, float bin_neg,
 
   /*  Initialize the parsing algorithm and open the data file  */
 
-  init_parse  ( filename,  parameters, bin_pos, bin_neg, net_config, 
+  init_parse  ( filename,  parameters, bin_pos, bin_neg, net_config,
                 &parse_data, &datafile );
 
   /*  Repeatedly read lines and then parse them  */
@@ -301,9 +301,9 @@ int  parse  ( char *filename, int parameters, float bin_pos, float bin_neg,
 
   print_rosetta  ( parse_data );
   shutdown_parse  ( &parse_data, &datafile );	/*  Clean up workspace  */
-  
+
   return TRUE;
-}  
+}
 
 
 /*	DISCARD_NET -  This function deallocates memory allocated to the
@@ -334,8 +334,8 @@ void discard_net  ( net_info *net_config )
 	and opens the data file.
 */
 
-void  init_parse  ( char *filename, int parameters, float bin_pos, 
-                    float bin_neg, net_info *net_config, 
+void  init_parse  ( char *filename, int parameters, float bin_pos,
+                    float bin_neg, net_info *net_config,
                     parse_info *parse_data, FILE **datafile )
 {
   char parse_delim [NUM_COMMANDS][16] = {
@@ -378,7 +378,7 @@ void  init_parse  ( char *filename, int parameters, float bin_pos,
   parse_data -> num_in_nodes  = NULL;
   parse_data -> num_out_nodes = NULL;
   parse_data -> num_inputs    = 0;
-  parse_data -> num_outputs   = 0;  
+  parse_data -> num_outputs   = 0;
 
   parse_data -> bin_pos = bin_pos;
   parse_data -> bin_neg = bin_neg;
@@ -402,7 +402,7 @@ void print_rosetta  ( parse_info parse_data )
   int i,j,k;
 
   fprintf (stderr, "\nRosetta Stone\n\n");
-  
+
   for  (i=0;i<parse_data.num_inputs;i++)  {
     fprintf  (stderr,"Input %d-  ",i+1);
     if  ( parse_data.num_in_enums[i] == 0 )
@@ -415,7 +415,7 @@ void print_rosetta  ( parse_info parse_data )
       }
     fprintf (stderr,"\n");
   }
-  
+
   for  (i=0;i<parse_data.num_outputs;i++)  {
     fprintf  (stderr,"Output %d- ",i+1);
     if  ( parse_data.num_out_enums[i] == 0 )
@@ -445,14 +445,14 @@ void  shutdown_parse  ( parse_info *parse_data, FILE **datafile )
     free ( *(parse_data -> input_table + i) );
   for  ( i = 0 ; i < parse_data -> num_outputs ; i++ )
     free ( *(parse_data -> output_table + i) );
-  
+
   free ( parse_data -> num_in_enums );
   free ( parse_data -> num_out_enums );
   free ( parse_data -> num_in_nodes );
   free ( parse_data -> num_out_nodes );
   free ( parse_data -> input_table );
   free ( parse_data -> output_table );
-  
+
   flush_queue ( &(parse_data -> data) );
 
   if  ( *datafile != NULL )
@@ -461,14 +461,14 @@ void  shutdown_parse  ( parse_info *parse_data, FILE **datafile )
 
 
 /*	GET_LINE -  This function reads data from the specified file until it
-	reaches a segment delimiter or a semicolon.  It allocates memory and 
+	reaches a segment delimiter or a semicolon.  It allocates memory and
 	returns this line, minus any whitespace.  It returns a pointer to the
 	line, unless the end-of-file is reached, in which case it returns a
 	NULL.  Note that if GET_LINE reaches an end-of-file when it is still
 	looking for a semicolon, it returns an error.
 */
 
-char *get_line  ( FILE *datafile )   
+char *get_line  ( FILE *datafile )
 {
   char instr [256],	/*  This is the string as read from the data file  */
        temp  [256],	/*  The string minus the whitespace  */
@@ -516,12 +516,12 @@ char *get_line  ( FILE *datafile )
     /*  Allocate or Reallocate memory to the string and then copy TEMP over  */
 
     if  ( line == NULL )  {
-      if  ( ( line = (char *) malloc ( strlen( temp ) + 1 ) ) == NULL )  
+      if  ( ( line = (char *) malloc ( strlen( temp ) + 1 ) ) == NULL )
 	NO_MEMORY;
       strcpy ( line, temp );
     } else {
       if  ( ( line = (char *) realloc ( line, strlen( line ) +
-				        strlen( temp ) + 1 ) ) == NULL )  
+				        strlen( temp ) + 1 ) ) == NULL )
 	NO_MEMORY;
       strcat ( line, temp );
     }
@@ -539,7 +539,7 @@ char *get_line  ( FILE *datafile )
 
 void  parse_line  ( char *line, parse_info *parse_data, net_info *net_config )
 {
-  switch ( enum_line ( line, parse_data ) )  { 
+  switch ( enum_line ( line, parse_data ) )  {
     case 0  :  setup_mode ( parse_data );
 	       break;
     case 1  :  train_mode ( parse_data, net_config );
@@ -586,7 +586,7 @@ int enum_line  ( char *line, parse_info *parse_data )
 
   return -1;
 }
-  
+
 
 /*	SETUP_MODE -  This function puts the parser into SETUP mode, checking
 	first to see that the parser is in 'neutral', that is, not in any mode.
@@ -594,7 +594,7 @@ int enum_line  ( char *line, parse_info *parse_data )
 
 void setup_mode ( parse_info *parse_data )
 {
-  if  ( parse_data -> parse_mode != 0 )		/*  Check for validity  */    
+  if  ( parse_data -> parse_mode != 0 )		/*  Check for validity  */
     parse_err  ( 2, NULL );
 
   parse_data -> parse_mode = 1;			/*  Switch modes  */
@@ -760,7 +760,7 @@ void end_sequence ( parse_info *parse_data, net_info *net_config )
   else  if  ( parse_data -> parse_mode == 3 )
     net_config -> validate_seg++;
   else
-    net_config -> test_seg++; 
+    net_config -> test_seg++;
 }
 
 
@@ -777,7 +777,7 @@ void set_protocol ( char *line, parse_info *parse_data, net_info *net_config )
     net_config -> protocol = 1;
   else if  ( !strcmp ( line, ":SEQUENCE" ) )
     net_config -> protocol = 2;
-  else  	
+  else
     parse_err  ( 9, line + 1 );			/*  Unknown protocol  */
 }
 
@@ -807,7 +807,7 @@ void set_inputs  ( char *line, parse_info *parse_data, net_info *net_config )
   int i;	/*  Index variable  */
 
   /*  Read in the number of inputs  */
-  
+
   if  ( !is_int( line+1 ) )
     parse_err ( 27, line+1 );
   parse_data -> num_inputs = atoi( line+1 );
@@ -817,18 +817,18 @@ void set_inputs  ( char *line, parse_info *parse_data, net_info *net_config )
   /*  Set the number of inputs expected to the total number of inputs  */
 
   parse_data -> inputs_left = parse_data -> num_inputs;
-  
+
   /*  Allocate memory for the parsing information  */
 
-  if  ( ( parse_data -> num_in_nodes = 
+  if  ( ( parse_data -> num_in_nodes =
           (int *) calloc ( parse_data -> num_inputs, sizeof( int ) )) == NULL )
     NO_MEMORY;
 
-  if  ( ( parse_data -> input_table = (enum_cvrt **) 
+  if  ( ( parse_data -> input_table = (enum_cvrt **)
           calloc ( parse_data -> num_inputs, sizeof( enum_cvrt * ) )) == NULL )
     NO_MEMORY;
 
-  if  ( ( parse_data -> num_in_enums = 
+  if  ( ( parse_data -> num_in_enums =
           (int *) calloc ( parse_data -> num_inputs, sizeof( int ) )) == NULL )
     NO_MEMORY;
 
@@ -838,7 +838,7 @@ void set_inputs  ( char *line, parse_info *parse_data, net_info *net_config )
     *( parse_data -> num_in_nodes + i ) = 0;
     *( parse_data -> input_table + i )  = NULL;
     *( parse_data -> num_in_enums + i ) = 0;
-  } 
+  }
 }
 
 
@@ -864,11 +864,11 @@ void set_outputs  ( char *line, parse_info *parse_data, net_info *net_config )
 
   /*  Allocate memory to store the information about the outputs  */
 
-  if  ( ( parse_data -> num_out_nodes = 
+  if  ( ( parse_data -> num_out_nodes =
          (int *) calloc ( parse_data -> num_outputs, sizeof( int ) )) == NULL )
     NO_MEMORY;
 
-  if  ( ( parse_data -> num_out_enums = 
+  if  ( ( parse_data -> num_out_enums =
          (int *) calloc ( parse_data -> num_outputs, sizeof( int ) )) == NULL )
     NO_MEMORY;
 
@@ -897,7 +897,7 @@ void set_in  ( char *line, parse_info *parse_data, net_info *net_config )
   int   in_num;		/*  The number of the input being set  */
   char  message [5],	/*  Parse error message  */
         *num_str;       /*  String representing the number  */
-  
+
   /*  Read in the input number and check it for validity  */
 
   num_str = strtok ( strchr( line, '[' )+1, "]" );
@@ -909,7 +909,7 @@ void set_in  ( char *line, parse_info *parse_data, net_info *net_config )
   if  ( *( parse_data -> num_in_nodes + in_num - 1 ) != 0 )
     parse_err ( 13, itoa( in_num, message ) );	/*  Input already set  */
   ( parse_data -> inputs_left )--;
-  strcpy ( line, line + 3 + strlen( num_str ) );  
+  strcpy ( line, line + 3 + strlen( num_str ) );
 
   /*  Classify the input and then call a function to set up the necessary  */
   /* nodes								   */
@@ -989,12 +989,12 @@ void  set_cont  ( int *num_nodes )
 /*	SET_BINARY -  This function sets up the node for a binary input/output.
 */
 
-void  set_binary  ( float bin_pos, float bin_neg, 
+void  set_binary  ( float bin_pos, float bin_neg,
                     int *num_enums, int *num_nodes, enum_cvrt **table )
 {
   *num_enums = 2;    /*  Set information about the node  */
   *num_nodes = 1;
-  
+
   /*  Allocate memory for the enumeration table  */
 
   if  ( (*table = (enum_cvrt *) calloc (2,sizeof( enum_cvrt ))) == NULL )
@@ -1024,7 +1024,7 @@ void  set_binary  ( float bin_pos, float bin_neg,
 	input/output.
 */
 
-void  set_enum  ( float bin_pos, float bin_neg, char *line, int *num_enum, 
+void  set_enum  ( float bin_pos, float bin_neg, char *line, int *num_enum,
                   int *num_nodes, enum_cvrt **table, int binary )
 {
   queue enumerations;	/*  This queue contains a list of the enumerations  */
@@ -1041,15 +1041,15 @@ void  set_enum  ( float bin_pos, float bin_neg, char *line, int *num_enum,
   if ( (tok = strtok ( line, "," )) == NULL )
     parse_err ( 15, NULL );	/*  No token  */
   enqueue  ( &enumerations, tok, ( strlen( tok ) + 1 ) * sizeof( char ) );
-  
+
   /*  Get all succeeding tokens  */
 
   while  ( ( tok = strtok ( NULL, "," ) ) != NULL )  {
     if  ( strstr ( tok, "}" ) != NULL )
       *(tok + strlen( tok ) - 1) = NULL;
     enqueue  ( &enumerations, tok, ( strlen( tok ) + 1 ) *  sizeof( char ) );
-  } 
-  
+  }
+
   /*  Determine the number of nodes needed for these enumerations  */
 
   *num_enum = enumerations.num_elem;
@@ -1071,7 +1071,7 @@ void  set_enum  ( float bin_pos, float bin_neg, char *line, int *num_enum,
   for  ( i = 0 ; i < *num_enum ; i++ )  {
     dequeue_p  ( &enumerations, (void *) &tok );
     (*table + i) -> name = tok;
-    (*table + i) -> equiv = get_equiv  ( i, *num_enum, type, 
+    (*table + i) -> equiv = get_equiv  ( i, *num_enum, type,
                                          bin_pos, bin_neg );
   }
 }
@@ -1103,7 +1103,7 @@ int  num_bin_nodes  ( int num_enum )
 	numbers to represent the enumeration.
 */
 
-float *get_equiv  ( int index, int num_nodes, int type, float bin_pos, 
+float *get_equiv  ( int index, int num_nodes, int type, float bin_pos,
                     float bin_neg )
 {
   float *result;	/*  This is the result to return to the caller  */
@@ -1129,7 +1129,7 @@ float *get_equiv  ( int index, int num_nodes, int type, float bin_pos,
         *(result + i) = bin_neg;
       index >>= 1;
     }
-  
+
   return result;	/*  Return the sequence  */
 }
 
@@ -1167,7 +1167,7 @@ void  data_line  ( char *line, parse_info *parse_data, net_info *net_config )
 
   /*  Allocate memory for the data points  */
 
-  if  (( inputs = (float *) 
+  if  (( inputs = (float *)
            calloc  ( net_config -> inputs, sizeof( float ) )) == NULL )
     NO_MEMORY;
   if  (( outputs = (float *)
@@ -1179,10 +1179,10 @@ void  data_line  ( char *line, parse_info *parse_data, net_info *net_config )
   for  ( i = 0 ; i < parse_data -> num_inputs; i++ )  {
     token = get_token ( line );
     lookup_token  ( token, i, inputs, *(parse_data -> input_table+i),
-                    *(parse_data -> num_in_enums+i), 
+                    *(parse_data -> num_in_enums+i),
                     parse_data -> num_in_nodes );
     free ( token );
-  } 
+  }
 
   /*  If we are past the offset, read in the outputs and look them up in  */
   /* their conversion table.  Otherwise, just decrement OFFSET_LEFT.      */
@@ -1196,7 +1196,7 @@ void  data_line  ( char *line, parse_info *parse_data, net_info *net_config )
     for  ( i = 0 ; i < parse_data -> num_outputs ; i++ )  {
       token = get_token ( line );
       lookup_token  ( token, i, outputs, *(parse_data -> output_table+i),
-                      *(parse_data -> num_out_enums+i), 
+                      *(parse_data -> num_out_enums+i),
                       parse_data -> num_out_nodes );
       free ( token );
     }
@@ -1234,7 +1234,7 @@ char  *get_token    ( char *line )
     parse_err  ( 20, NULL );
 
   /*  Allocate memory for the token and copy the token to that memory  */
-  
+
   if  ( ((*(line + i) == '=' ) && (*(line + i + 1) == '>')) ||
         (*(line + i) == ',' )  || (*(line + i) == '\0') )  {
     if  ( (tok = (char *)calloc (i+1, sizeof( char ))) == NULL )
@@ -1254,7 +1254,7 @@ char  *get_token    ( char *line )
 	conversion table passed to it and inserts the equivelence into the
 	translation, at the point specified.
 */
- 
+
 void  lookup_token  ( char *token, int position, float *translation,
                       enum_cvrt *enum_table, int num_enums, int *num_nodes )
 {
@@ -1301,7 +1301,7 @@ void  lookup_token  ( char *token, int position, float *translation,
 
   if  ( !found )
     parse_err  ( 19, token );	/*  Token not found  */
-  
+
 
   /*  Insert the equivelence into the translation array  */
 
@@ -1322,7 +1322,7 @@ char *itoa  ( int num, char *str )
 
 
 /*	PARSE_ERR -  This function whenever an error has been reached in the
-	data file.  It prints out an error message and then exits from the 
+	data file.  It prints out an error message and then exits from the
 	program.
 */
 
@@ -1387,7 +1387,7 @@ void  parse_err  ( int err_no, char *message )
                break;
     case 26 :  fprintf ( stderr, "Unable to open data file: %s", message );
                break;
-    case 27 :  fprintf ( stderr, "Data item should be an integer: %s", 
+    case 27 :  fprintf ( stderr, "Data item should be an integer: %s",
 			 message );
                break;
     case 28 :  fprintf ( stderr, "Data item should be a floating point");

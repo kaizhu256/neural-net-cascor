@@ -19,7 +19,7 @@ typedef struct  {		/*  This structure holds a set of network  */
 /*  This structure contains the information to be passed back to the calling */
 /* program.								     */
 
-typedef struct  {	
+typedef struct  {
   int protocol,		/*  Data protocol to use  */
       offset,		/*  Number of inputs to read before an output should */
 			/* occur			    		     */

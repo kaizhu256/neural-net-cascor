@@ -9,7 +9,7 @@
 #	Likewise, replace CFLAGS with whatever compiler directives give you the
 #	best optimization.  The compiler used should be ANSI/ISO compatible.
 
-CC = cc
+CC = gcc
 LDLIBS = -lm
 CFLAGS =
 
@@ -25,5 +25,5 @@ tools.o:	tools.h queue.h
 queue.o:	queue.h
 
 clean:
-		"rm" -f -e core *.o *~ *.u
+		"rm" -f core *.o *~ *.u
 

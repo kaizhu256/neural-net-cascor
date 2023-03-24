@@ -12,7 +12,7 @@
 */
 
 
-/*	Include Files	*/  
+/*	Include Files	*/
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -39,7 +39,7 @@ typedef struct  {
 	including the topic information and the number of topics.
 */
 
-typedef struct  {	
+typedef struct  {
   help_rec_t  *topics;		/*  An array of topics, with their info  */
   int         Ntopics;		/*  The number of topics available  */
 }  help_t;
@@ -67,8 +67,8 @@ void	list_help	( void );
 	or not.  If memory was NOT allocated, this function aborts the
 	program, informing the user where memory was not allocated.
 
-	Nelem		-  Number of elements to allocate.  If you are 
-			   allocating memory for an array, put the number of 
+	Nelem		-  Number of elements to allocate.  If you are
+			   allocating memory for an array, put the number of
 			   elements here.
 	elemSize	-  The size of each element.  This can be obtained with
 			   a sizeof( ) instruction.
@@ -138,7 +138,7 @@ boolean atob  ( char *token )
 {
   str_upper( token );
 
-  if  ( !strcmp( "TRUE", token ) || !strcmp( "YES", token ) || 
+  if  ( !strcmp( "TRUE", token ) || !strcmp( "YES", token ) ||
         !strcmp( "ON", token ) )
     return TRUE;
   return FALSE;
@@ -158,7 +158,7 @@ boolean atob  ( char *token )
 void str_upper  ( char *token )
 {
   int i;	/*  Indexing variable  */
-  
+
   /*  Cycle through each character in the string, check to see if it's lower
       case, and then convert it to upper case if it is.			     */
 
@@ -199,7 +199,7 @@ boolean	is_int  ( char *inVal )
 	inVal	- This is the character string to check.
 
 	RETURNS:	TRUE if the string represents a valid floating point
-			number, FALSE otherwise. 
+			number, FALSE otherwise.
 */
 
 boolean	is_float  ( char *inVal )
@@ -290,7 +290,7 @@ boolean get_yn  ( boolean def )
   char inChar,		/*  The character read from stdin.  */
        dummy [2];
 
-  inChar = getchar( );	/*  Read the input from stdin  */  
+  inChar = getchar( );	/*  Read the input from stdin  */
 
   if  ( ( inChar == 'Y' ) || ( inChar == 'y' ) )  {	/*  Check for a true */
     gets ( dummy );					/* or false value    */
@@ -302,7 +302,7 @@ boolean get_yn  ( boolean def )
   }
 
   return def;		/*  Return the default  */
-} 
+}
 
 
 /*	ADD_EXT -  This function takes the pointer to a file name and then
@@ -311,10 +311,10 @@ boolean get_yn  ( boolean def )
 	is added to the end of the file name, which is returned as outFile.
 	There are no known side effects to this function.
 
-	inFile		-  This is the file name to use as the base for the 
+	inFile		-  This is the file name to use as the base for the
 			   new file.  It is NOT modified by this function.
 	outFile		-  This is a character string to store the results of
-			   the function.  Memory for this string MUST be 
+			   the function.  Memory for this string MUST be
 			   allocated prior to calling this function.
 	ext		-  This is the extension to add to the original file
 			   name.  Note that no '.' is added, so if you want
@@ -329,7 +329,7 @@ boolean get_yn  ( boolean def )
 	NOTES:		If you do not want to remove a current extension, pass
 			a NULL pointer in extList, and set Next to '0'.
 */
- 
+
 void  add_ext  ( char *inFile, char *outFile, char *ext, char *extList [],
                  int  Next )
 {
@@ -357,7 +357,7 @@ void  add_ext  ( char *inFile, char *outFile, char *ext, char *extList [],
 	information on that topic.  A topic should be capitalized and
 	preceded by a '$'.  All lines following that topic are considered part
 	of that topic until another topic or the end-of-file is reached.
-	
+
 	Generalized help (i.e. help with no topic) should have the topic of
 	'$HELP'.  A line can be designated as a comment line by preceding it
 	with a '#' sign.  Note that both the topic and comment markers must
@@ -418,7 +418,7 @@ boolean  init_help  ( char *helpfile )
       Nlines = 0;
     }  else if  ( inBuffer [0] != '#' )  {
       Nlines++;
-    } 
+    }
   }
   enqueue  ( &topicLen, &Nlines, sizeof( long ) );
 
@@ -442,7 +442,7 @@ boolean  init_help  ( char *helpfile )
 						       fn );
     help_data.topics [i].Nlines = Nlines;
     while  ( j < Nlines )  {
-      help_data.topics [i].descript [j] = (char *)alloc_mem ( 81, 
+      help_data.topics [i].descript [j] = (char *)alloc_mem ( 81,
 						          sizeof( char ), fn );
       do  {
         fgets ( help_data.topics [i].descript [j], 81, datafile );
@@ -465,7 +465,7 @@ boolean  init_help  ( char *helpfile )
 
 int  compare_elem  ( const void *elem_1, const void *elem_2 )
 {
-  return  ( strcmp ( ((help_rec_t *)elem_1) -> name, 
+  return  ( strcmp ( ((help_rec_t *)elem_1) -> name,
                      ((help_rec_t *)elem_2) -> name ) );
 }
 
@@ -527,7 +527,7 @@ boolean  help  ( char *topic, int indent, boolean title )
     printf  ( "%s%s", ind, help_data.topics [loc].descript [i] );
 
   free( ind );		/*  Deallocate indention and return affirmative res  */
-  return TRUE; 
+  return TRUE;
 }
 
 
@@ -573,7 +573,7 @@ void  list_help  ( void )
     printf  ("\n");
 }
 
-/*	CLOSE_HELP -  Deallocates the memory used by help in your program.  
+/*	CLOSE_HELP -  Deallocates the memory used by help in your program.
 	Help becomes unavailable, but memory is freed.
 */
 

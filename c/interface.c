@@ -41,9 +41,9 @@ typedef enum  {		/*  Data type.  This is used when reading in	*/
   INT, 			/* parameters to determine how they should be	*/
   FLOAT, 		/* interpreted.					*/
   BOOLEAN,
-  UNIT_TYPE, 
+  UNIT_TYPE,
   ERR_TYPE
-} var_t; 
+} var_t;
 
 
 /*	Data Structure Definitions	*/
@@ -118,13 +118,13 @@ extern boolean		isSeq,			/*  Sequence data set?	    */
 
 parm_t  parmTable [NPARMS] = {
   { "BIAS", "bias", FLOAT, (void *)&(parm.bias), TRUE },
-  { "CANDCHANGETHRESHOLD", 	"candChangeThreshold", FLOAT, 
+  { "CANDCHANGETHRESHOLD", 	"candChangeThreshold", FLOAT,
     (void *)&(parm.cand.changeThresh), TRUE },
   { "CANDDECAY", "candDecay", FLOAT, (void *)&(parm.cand.decay), TRUE },
   { "CANDEPOCHS", "candEpochs", INT, (void *)&(parm.cand.epochs), TRUE },
   { "CANDEPSILON", "candEpsilon", FLOAT, (void *)&(parm.cand.epsilon), TRUE },
   { "CANDMU", "candMu", FLOAT, (void *)&(parm.cand.mu), TRUE },
-  { "CANDNEWTYPE", "candNewType", UNIT_TYPE, (void *)&(parm.candNewType), 
+  { "CANDNEWTYPE", "candNewType", UNIT_TYPE, (void *)&(parm.candNewType),
     TRUE },
   { "CANDPATIENCE", "candPatience", INT, (void *)&(parm.cand.patience), TRUE },
   { "ERRORINDEXTHRESHOLD", "errorIndexThreshold", FLOAT,
@@ -136,7 +136,7 @@ parm_t  parmTable [NPARMS] = {
   { "OUTDECAY", "outDecay", FLOAT, (void *)&(parm.out.decay), TRUE },
   { "OUTEPOCHS", "outEpochs", INT, (void *)&(parm.out.epochs), TRUE },
   { "OUTEPSILON", "outEpsilon", FLOAT, (void *)&(parm.out.epsilon), TRUE },
-  { "OUTERRORTHRESHOLD", "outErrorThreshold", FLOAT, 
+  { "OUTERRORTHRESHOLD", "outErrorThreshold", FLOAT,
     (void *)&(parm.out.changeThresh), TRUE },
   { "OUTMU", "outMu", FLOAT, (void *)&(parm.out.mu), TRUE },
   { "OUTPATIENCE", "outPatience", INT, (void *)&(parm.out.patience), TRUE },
@@ -144,19 +144,19 @@ parm_t  parmTable [NPARMS] = {
   { "OUTSIGMIN", "outSigMin", FLOAT, (void *)&(parm.out.sigMin), TRUE },
   { "PARSEINBINARY", "parseInBinary", BOOLEAN, (void *)&(parm.parseInBinary),
     FALSE },
-  { "PARSEOUTBINARY", "parseOutBinary", BOOLEAN, 
+  { "PARSEOUTBINARY", "parseOutBinary", BOOLEAN,
     (void *)&(parm.parseOutBinary), FALSE },
   { "SCORETHRESHOLD", "scoreThreshold", FLOAT, (void *)&(error.scoreThresh),
     TRUE },
   { "SIGMAX", "sigMax", FLOAT, (void *)&(parm.cand.sigMax), TRUE },
   { "SIGMIN", "sigMin", FLOAT, (void *)&(parm.cand.sigMin), TRUE },
-  { "SIGPRIMEOFFSET", "sigPrimeOffset", FLOAT, 
+  { "SIGPRIMEOFFSET", "sigPrimeOffset", FLOAT,
      (void *)&(parm.sigPrimeOffset), TRUE },
-  { "TEST", "test", BOOLEAN, (void *)&(parm.test), FALSE }, 
+  { "TEST", "test", BOOLEAN, (void *)&(parm.test), FALSE },
   { "USECACHE", "useCache", BOOLEAN, (void *)&(parm.useCache), FALSE },
   { "VALIDATE", "validate", BOOLEAN, (void *)&(parm.validate), FALSE },
   { "VALPATIENCE", "valPatience", INT, (void *)&(parm.valPatience), TRUE },
-  { "WEIGHTMULTIPLIER", "weightMultiplier", FLOAT, 
+  { "WEIGHTMULTIPLIER", "weightMultiplier", FLOAT,
      (void *)&(parm.weightMult), TRUE },
   { "WEIGHTRANGE", "weightRange", FLOAT, (void *)&(parm.weightRange), TRUE },
   { "WINRADIUS", "winRadius", INT, (void *)&(parm.winRadius), FALSE }
@@ -201,7 +201,7 @@ unit_type	atot		( char * );
 
 void  prog_id	( void )
 {
-  printf  ( "Cascade Correlation Algorithm  v%s (%s)\n", VERSION, 
+  printf  ( "Cascade Correlation Algorithm  v%s (%s)\n", VERSION,
             RELEASE_DATE );
   printf  ("  compiled: %s  %s\n", __DATE__, __TIME__ );
 #ifdef CONNX
@@ -210,7 +210,7 @@ void  prog_id	( void )
   printf  ("  connection crossing statistics DISABLED\n");
 #endif
   printf  ("  direct questions to: %s\n\n\n", CONTACT );
-} 
+}
 
 
 /*	LIST_PARMS -  List out calculated parameters.  This is pretty much the
@@ -225,7 +225,7 @@ void  list_parms  ( void )
   /*  Print run parameters  */
 
   printf  ("Run Parameters\n");
-  printf  ("  Trials: %d\t\tCache: %s\n", parm.Ntrials, 
+  printf  ("  Trials: %d\t\tCache: %s\n", parm.Ntrials,
            btoa( parm.useCache, 3 ) );
   printf  ("  Max new units: %d\tWindow radius: %d\tBias: %6.3f\n",
            parm.maxNewUnits, parm.winRadius, parm.bias );
@@ -237,7 +237,7 @@ void  list_parms  ( void )
   /*  Print information on the data set  */
 
   printf  ("Training Set Information\n");
-  printf  ("  Data file: %s\tProtocol: %s\n", parm.dataFile, 
+  printf  ("  Data file: %s\tProtocol: %s\n", parm.dataFile,
            ptoa( netConfig.protocol ) );
   printf  ("  Validation: %s\tValidation patience: %d\tTest: %s\n",
            btoa( parm.validate, 3 ), parm.valPatience, btoa( parm.test, 3 ) );
@@ -279,14 +279,14 @@ void  list_parms  ( void )
   /*  Print information on how candidates will be trained  */
 
   printf  ("Candidate Unit Parameters\n");
-  printf  ("  Number: %3d\tNew unit type: %s\n", 
+  printf  ("  Number: %3d\tNew unit type: %s\n",
            Ncand, ttoa( parm.candNewType ) );
   printf  ("  Epochs: %4d\tChange threshold: %5.3f\t\tPatience: %3d\n",
             parm.cand.epochs, parm.cand.changeThresh, parm.cand.patience );
   printf  ("  Epsilon: %5.3f\tDecay: %6.4f\t\tMu: %5.3f\n",
            parm.cand.epsilon, parm.cand.decay, parm.cand.mu );
   printf  ("  Sigmoid max: %5.3f\tSigmoid min: %5.3f\tWeight mult: %5.3f\n\n",
-           parm.cand.sigMax, parm.cand.sigMin, parm.weightMult ); 
+           parm.cand.sigMax, parm.cand.sigMin, parm.weightMult );
 }
 
 
@@ -298,7 +298,7 @@ void  output_begin_trial  ( int trialNum, time_t *startTime )
 {
   time ( startTime );
   printf  ("\n\nTrial %d begun at %s\n", trialNum, ctime( startTime ));
-} 
+}
 
 
 /*	OUTPUT_TRAIN_RESULTS -  Inform the user as to how training the outputs
@@ -324,7 +324,7 @@ void  output_train_results  ( status_t status )
     printf  ("    Error index: %6.3f\t", error.index );
   printf  ("True error: %8.3f\tSum squared error: %8.3f\n", error.trueErr,
            error.sumSqErr );
-  
+
   /*  Print the weight values for the outputs	*/
 
   for  ( i = 0 ; i < Noutputs ; i++ )  {
@@ -383,7 +383,7 @@ void  output_cand_results  ( status_t status )
   /*  Print the weights for the new unit	*/
 
   printf  ("    Unit %2d:  ", Nunits);
- 
+
   while  ( i < (Nunits-1) )  {
     printf  ("%8.3f  ", net.weights [Nunits-1][i] );
     i++;
@@ -394,7 +394,7 @@ void  output_cand_results  ( status_t status )
   }
   printf ("\n");
 }
- 
+
 
 /*	OUTPUT_TRIAL_RESULTS -  Print the final results for this trial.
 	Compute trial run time and output that.  Store vital information
@@ -444,7 +444,7 @@ void  output_trial_results  ( status_t finalStat, int trial, time_t startTime )
   runResults.sumSqError      += error.sumSqErr;
   runResults.Nunits          += Nunits;
   runResults.runTime         += runTime;
-    
+
   /*  Output the results of the trial	*/
 
   printf ("  End Trial Results\n");
@@ -454,7 +454,7 @@ void  output_trial_results  ( status_t finalStat, int trial, time_t startTime )
   printf ("    Connection crossings: %d\tCrossings per second: %10.2f\n",
           connx, connx / runTime );
 #endif
-  printf ("    Total units: %d\t\t\tHidden units: %d\n", Nunits, 
+  printf ("    Total units: %d\t\t\tHidden units: %d\n", Nunits,
           Nunits - Ninputs - 1 );
 
   if  ( parm.test )
@@ -495,11 +495,11 @@ void  output_run_results  ( void )
   printf  ("Run Results\n");
   printf  ("~~~~~~~~~~~\n");
   printf  ("  %d trials\t%d victories\t%d defeats\n",
-           Ntrials, runResults.Nvictories, 
+           Ntrials, runResults.Nvictories,
            Ntrials - runResults.Nvictories );
   printf  ("  Run time: %d hrs  %d min  %d sec",
            (((int)runResults.runTime) / 3600),
-           (((int)runResults.runTime) % 3600) / 60, 
+           (((int)runResults.runTime) % 3600) / 60,
            ((int)runResults.runTime) % 60 );
 #ifdef CONNX
   printf  ("\t\t%8.1f conn/sec\n", runResults.crossingsSec / Ntrials );
@@ -513,12 +513,12 @@ void  output_run_results  ( void )
            runResults.trueError / Ntrials, runResults.sumSqError / Ntrials );
   if  ( error.measure == BITS )
     printf ("  Ave bits wrong: %8.1f\tAve percent correct: %8.1f\n",
-            ((float)runResults.errorBits) / Ntrials, 
+            ((float)runResults.errorBits) / Ntrials,
             runResults.percentCorrect / Ntrials );
   else
     printf ("  Ave error index: %8.1f\n", runResults.errorIndex / Ntrials );
   printf ("\n\n");
-} 
+}
 
 
 /************************** CLI Utilities ************************************/
@@ -630,7 +630,7 @@ void change_parms  ( boolean inRun )
     if  ( !spec_parm ( inRun, parm, parmV, parmV2 ) )
       change_parm ( inRun, parm, parmV );
   }
-}    
+}
 
 
 /*	SPEC_PARM -  This function handles a group of special case parameters
@@ -643,7 +643,7 @@ boolean  spec_parm  ( boolean inRun, char *parm, char *parmV, char *parmV2 )
   /* the user is trying to do.						 */
 
   char *specParm [] = { "LOADDATA", "LOADCONFIG",
-			"SAVECONFIG", "SAVEWEIGHTS", "OUTTYPE", 
+			"SAVECONFIG", "SAVEWEIGHTS", "OUTTYPE",
 			"LIST", "?", "HELP", "INTERACT", "" };
   int  parmNum;		/*  Which action did the user want to take?  */
 
@@ -695,7 +695,7 @@ boolean  spec_parm  ( boolean inRun, char *parm, char *parmV, char *parmV2 )
   }
 
   return TRUE;	/*  We found the key  */
-}		
+}
 
 
 /*	GET_DATA -  CLI interface to the LOAD_DATA function.  If no file name
@@ -725,7 +725,7 @@ void  get_data  ( char *filename )
     strcpy ( datafile, filename );
   load_data  ( datafile, &(out.types) );
 }
-	
+
 
 /*	GET_CONFIG -  This function is the CLI interface to the parse_config
 	function.  It tells that function whether a run has been started and
@@ -749,7 +749,7 @@ void  get_config  ( boolean inRun, char *filename )
 /*	SAVE_CONFIG -  This function goes through and saves a copy of all the
 	modifiable parameters.  If no filename is provided, the program prompts
 	the user for one.  If the file name provided has no extension, one is
-	added.  If this would cause a file to be overwritten, the user is 
+	added.  If this would cause a file to be overwritten, the user is
 	prompted if he or she wants to proceed.
 */
 
@@ -789,13 +789,13 @@ void  save_config  ( char *filename )
 
   /*  Loop through the entire parameter table, and save each parameter  */
 
-  fprintf  ( fptr, "#  Cascade Correlation  v%s Configuration File\n", 
+  fprintf  ( fptr, "#  Cascade Correlation  v%s Configuration File\n",
              VERSION );
 
   for  ( i = 0 ; i < NPARMS ; i++ )  {
     fprintf  ( fptr, "%s\t", parmTable [i].displayName );
     switch  ( parmTable [i].type )  {
-      case INT:		fprintf ( fptr, "%d\n", 
+      case INT:		fprintf ( fptr, "%d\n",
 				  *(int *)parmTable [i].parameter );
 			break;
       case FLOAT:	fprintf ( fptr, "%f\n",
@@ -854,7 +854,7 @@ void  sel_wfile  ( char *filename )
   /*  Remove extension and then put file name into the parameter structure  */
 
   add_ext  ( temp, datafile, "", ext, N_EXT );
-  
+
   parm.weightFile = (char *)alloc_mem ( strlen( datafile ) + 1, sizeof( char ),
 					"Select Weight File" );
   strcpy ( parm.weightFile, datafile );
@@ -893,7 +893,7 @@ void  change_out  ( char *outNum, char *unitType )
     printf  ("There aren't that many outputs in the network!\n");
     return;
   }
-  
+
   /*  Get new type for unit and then change the setting  */
 
   if  ( unitType == NULL )  {
@@ -926,7 +926,7 @@ void  list_keys  ( boolean inRun )
       continue;
     printf  ( "  %s ", parmTable [i].displayName );
     switch  ( parmTable [i].type )  {
-      case INT:		printf ( "[%d]\n", 
+      case INT:		printf ( "[%d]\n",
 				 *(int *)parmTable [i].parameter );
 			break;
       case FLOAT:	printf ( "[%f]\n",
@@ -975,7 +975,7 @@ void  change_parm  ( boolean inRun, char *parm, char *parmV )
 
   /*  Get the value for this parameter  */
 
-  if  ( parmV != NULL )		
+  if  ( parmV != NULL )
     strcpy ( val, parmV );
   else
     get_val ( loc, val );
@@ -994,7 +994,7 @@ void  get_val  ( int loc, char *value )
   printf  ("\nParameter:\t%s\n", parmTable [loc].displayName );
   switch  ( parmTable [loc].type )  {
     case INT 		: printf ( "Type:\t\tInteger\n" );
-			  printf ( "Value:\t\t%d", 
+			  printf ( "Value:\t\t%d",
                                    *(int *)parmTable [loc].parameter );
 			  break;
     case FLOAT		: printf ( "Type:\t\tFloating Point\n" );
@@ -1017,7 +1017,7 @@ void  get_val  ( int loc, char *value )
   }
 
   /*  Print help  */
- 
+
   if  ( helpAvail )  {
     printf ("\n\n");
     help ( parmTable [loc].name, 2, FALSE );
@@ -1137,7 +1137,7 @@ void load_data  ( char *filename, unit_type **outTypes )
 }
 
 
-/*	PARSE_CONFIG -  Goes through and modifies those parameters that are 
+/*	PARSE_CONFIG -  Goes through and modifies those parameters that are
 	specified in the file named.  If a parameter is not modifiable in the
 	current state of the program, then a message is printed out to the
 	user and execution continues.
@@ -1210,7 +1210,7 @@ void  process_line  ( boolean inRun, char *buffer )
 	/*  Convert this parameter to the appropriate type and store it  */
 
         switch  ( parmTable [location].type )  {
-          case INT        :  *((int *) parmTable [location].parameter) = 
+          case INT        :  *((int *) parmTable [location].parameter) =
                                                                 atoi( valTok );
                              break;
           case FLOAT      :  *((float *) parmTable [location].parameter) =
@@ -1231,7 +1231,7 @@ void  process_line  ( boolean inRun, char *buffer )
       printf ( "%s not found, continuing...\n", keyTok );
 
     /*  Get the next parameter from this line  */
-    
+
     keyTok = strtok( NULL, seperators );
   }
 }
@@ -1260,7 +1260,7 @@ int  find_key  ( char *key )
     if  ( dir < 0 )
       end = location - 1;
     else
-      start = location + 1; 
+      start = location + 1;
     location = (start + end) / 2;
   }
 
@@ -1316,7 +1316,7 @@ void  save_weights  ( char *fileName, boolean interact,
 
   fprintf  ( weightFile, "# %s  trial: %d  %s", parm.dataFile, trial,
              ctime( &startTime ) );
-  fprintf  ( weightFile, "Ninputs: %d\tNunits: %d\tNoutputs: %d\n", Ninputs, 
+  fprintf  ( weightFile, "Ninputs: %d\tNunits: %d\tNoutputs: %d\n", Ninputs,
              Nunits, Noutputs );
   fprintf  ( weightFile, "winRad: %d\tbias: %f\n", parm.winRadius, parm.bias );
   fprintf  ( weightFile, "outSigMax: %f\toutSigMin: %f\n",
@@ -1351,7 +1351,7 @@ void  save_weights  ( char *fileName, boolean interact,
   }
   if  ( ( i % 6 ) != 0 )
     fprintf ( weightFile, "\n");
-  
+
   /*  Print the output weights  */
 
   for  ( i = 0 ; i < Noutputs ; i++ )  {
@@ -1399,7 +1399,7 @@ void  load_weights  ( char *filename )
     return;
   }
 
-  
+
 }
 
 
@@ -1418,7 +1418,7 @@ void  check_interrupt  ( void )
     out.scaledEpsilon	= parm.out.epsilon / ( netConfig.train_pts -
                                                netConfig.train_seg );
     cand.shrinkFactor	= parm.cand.mu / ( 1.0 + parm.cand.mu );
-  
+
     interruptPending = FALSE;
     printf  ( "Simulation continuing...\n" );
   }
@@ -1456,7 +1456,7 @@ char *ttoa  ( unit_type inVal )
 }
 
 
-/*	ETOA -  This function takes in, as an argument, an error type.  It 
+/*	ETOA -  This function takes in, as an argument, an error type.  It
 	converts this type to the associated string values and returns a
 	pointer to that string.
 */

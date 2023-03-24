@@ -12,8 +12,8 @@
 	about any attempts to use this system, successful or not.
 
 	This code is currently being maintained by the site contact listed
-	above.  If you find a bug, add a useful feature, or discover a hack 
-        that will increase system performance, please contact the person at 
+	above.  If you find a bug, add a useful feature, or discover a hack
+        that will increase system performance, please contact the person at
         the address listed above so that the distribution source may be
 	modified accordingly.
 
@@ -33,19 +33,19 @@
 	RELEASE NOTES
 
 	This is the new version of the older Crowder version of the same
-	simulator.  Although we no longer support the Crowder version, it is 
+	simulator.  Although we no longer support the Crowder version, it is
 	still available in the 'code/old' directory.
 
 	The major differences between this program and the previous one are
-	that we now support the CMU Learning Benchmark Format.  This program 
-	accepts both IO and SEQUENCE data files.  Online help is now available 
-	at the interaction prompt.  In addition, the output has been cleaned 
-	extensively to make it more readable.  If you find a bug (or just have 
+	that we now support the CMU Learning Benchmark Format.  This program
+	accepts both IO and SEQUENCE data files.  Online help is now available
+	at the interaction prompt.  In addition, the output has been cleaned
+	extensively to make it more readable.  If you find a bug (or just have
 	a suggestion) in this code, please send mail to the address above.
 
 	To build this program, unpack the archive and type 'make'.  If you
 	desire to use a compiler different from 'cc', add a line that says
-	'CC=<compiler>' to the top of the Makefile.  You can also specify 
+	'CC=<compiler>' to the top of the Makefile.  You can also specify
 	optimizations on the 'CFLAGS' line.
 
 	Revision Log
@@ -100,7 +100,7 @@ cache_data  cache;		/*  Cached activation and error values	   */
 alt_data_t  val,		/*  Validation data set			   */
             test;		/*  Test data set			   */
 run_res_t   runResults;		/*  Totalled results from all trials	   */
-    
+
 int      Ncand,			/*  Number of candidates being trained	     */
          Nunits,		/*  Number of units in the network	     */
          Ninputs,		/*  Number of inputs to the network	     */
@@ -174,7 +174,7 @@ void      forward_pass		( int, int, data_set );
 void      setup_inputs		( int, int, data_set );
 void      output_pass		( void );
 void      compute_error		( float *, error_data *, boolean, boolean );
-void	  quickprop		( int, float *, float *, float *, float *, 
+void	  quickprop		( int, float *, float *, float *, float *,
                                   float, float, float, float );
 float     activation		( int, float );
 float     activation_prime	( int, float, float );
@@ -196,7 +196,7 @@ void  main  ( int argc, char *argv [] )
   /*  Identify the program, load data and parameters, check for user	*/
   /* changes and then initialize the data structures			*/
 
-  prog_id	     ( );  
+  prog_id	     ( );
   init_prog          ( );
   init_parms         ( );
   exec_command_line  ( argc, argv );
@@ -253,7 +253,7 @@ void  main  ( int argc, char *argv [] )
 
     /*  Run test epoch  */
 
-    if  ( parm.test )  
+    if  ( parm.test )
       test_epoch  ( );
 
     /*  Output the results of this trial  */
@@ -380,7 +380,7 @@ void init_vars	( int *maxUnits )
   runResults.errorIndex		= 0.0;
   runResults.trueError		= 0.0;
   runResults.sumSqError		= 0.0;
-  
+
   /*  Calculate the total number of units possible  */
 
   *maxUnits 		= 1 + Ninputs + parm.maxNewUnits;
@@ -391,7 +391,7 @@ void init_vars	( int *maxUnits )
 	allocated.  Allocation assumes that the network can grow to its
 	maximum size.
 */
-  
+
 void  build_net  ( int maxUnits )
 {
   char *fn 	= "Build Net";	/*  Function Identifier	*/
@@ -481,7 +481,7 @@ void  init_net  ( int maxUnits )
       out.slopes [i][j]     = 0.0;
       out.pSlopes [i][j]    = 0.0;
     }
-  } 
+  }
 
   /*  Initialize the cache	*/
 
@@ -493,7 +493,7 @@ void  init_net  ( int maxUnits )
         for  ( j = 0 ; j < Noutputs ; j++ )
           cache.errors [i][j] = 0.0;
       }
-  
+
   /*  Initialize the global variables	*/
 
   Nunits = Ninputs + 1;
@@ -567,8 +567,8 @@ void  init_cand  ( void )
 
 /********************** Output Training Functions ****************************/
 
-/*	TRAIN_OUTPUTS -  Train the outputs for a number of epochs, until 
-        victory, the maximum epoch set in the parameters is reached, or error 
+/*	TRAIN_OUTPUTS -  Train the outputs for a number of epochs, until
+        victory, the maximum epoch set in the parameters is reached, or error
 	ceases to improve measureably.  Return the final result in *status.
 	Victory (WIN) is achieved when either error bits goes to zero (if
 	measure = BITS), or error index falls below indexThresh (if measure =
@@ -588,7 +588,7 @@ void  train_outputs  ( status_t *status )
     init_error ( &error );	/*  Initialize the error		     */
 
     output_epoch ( );		/*  Perform a training epoch on the outputs  */
-    
+
     check_interrupt ( );	/*  Check for user interrupt		     */
 
     /*  Check to see if victory was achieved.  If so, set status and return  */
@@ -596,7 +596,7 @@ void  train_outputs  ( status_t *status )
     if  ( (error.measure == BITS) && (error.bits == 0) )  {
       *status = WIN;
       return;
-    }  else  
+    }  else
     if  (error.measure == INDEX)  {
       error.index = ERROR_INDEX( error.trueErr, error.stdDev, NtrainOutVals );
       if  ( error.index <= error.indexThresh )  {
@@ -617,7 +617,7 @@ void  train_outputs  ( status_t *status )
     if  ( i == 0 )
       lastError = error.trueErr;
     else
-    if  ( fabs( error.trueErr - lastError ) > 
+    if  ( fabs( error.trueErr - lastError ) >
               ( lastError * parm.out.changeThresh) )  {
       lastError = error.trueErr;
       quitEpoch = epoch + parm.out.patience;
@@ -654,7 +654,7 @@ void output_epoch  ( void )
 
         if  ( parm.useCache )  {
           net.values    = cache.values [i];
-          error.errors  = cache.errors [i];   
+          error.errors  = cache.errors [i];
           output_pass ( );
         }  else
           forward_pass ( i, netConfig.train_pts, netConfig.train );
@@ -691,8 +691,8 @@ void  adjust_weights  ( void )
     os = out.slopes [i];
     op = out.pSlopes [i];
     for  ( j = 0 ; j < Nunits ; j++ )
-      quickprop  ( j, ow, od, os, op, out.scaledEpsilon, parm.out.decay, 
-                   parm.out.mu, out.shrinkFactor ); 
+      quickprop  ( j, ow, od, os, op, out.scaledEpsilon, parm.out.decay,
+                   parm.out.mu, out.shrinkFactor );
   }
 }
 
@@ -763,7 +763,7 @@ void  train_cand  ( status_t *status )
     if  ( i == 0 )
       lastScore = cand.bestScore;
     else
-    if  ( fabs( cand.bestScore - lastScore ) > 
+    if  ( fabs( cand.bestScore - lastScore ) >
           ( lastScore * parm.cand.changeThresh ) )  {
       quitEpoch = epoch + parm.cand.patience;
       lastScore = cand.bestScore;
@@ -806,7 +806,7 @@ void correlation_epoch  ( void )
         }  else  {
           forward_pass  ( i, netConfig.train_pts, netConfig.train );
           compute_error ( netConfig.train [i].outputs, &error, FALSE, FALSE );
-        } 
+        }
 
         compute_correlations  ( );	/*  Compute correlation values for  */
 					/* this training point		    */
@@ -870,7 +870,7 @@ void compute_correlations  ( void )
         *cWghts,	/*  Pointer to this candidate's weights  	    */
 	*cCorr;		/*  Pointer to this candidate's correlation values  */
   int   i, j;		/*  Indexing variables				    */
-  
+
   for  ( i = 0 ; i < Ncand ; i++ )  {
     sum 	= 0.0;			/*  Reset Sum  */
     cWghts    	= cand.weights [i];	/*  Used in a simple speed hack  */
@@ -913,7 +913,7 @@ void  adjust_correlations  ( void )
   cand.bestScore = 0.0;
 
   for  ( i = 0 ; i < Ncand ; i++ )  {
-    avgValue =  cand.sumVals [i] / NtrainPts;	/*  Calculate  avgValue	*/  
+    avgValue =  cand.sumVals [i] / NtrainPts;	/*  Calculate  avgValue	*/
 
     score    = 0.0;		/*  Reset score counter	*/
     curCor   = cand.corr  [i];	/*  Set pointers to array index being worked */
@@ -924,7 +924,7 @@ void  adjust_correlations  ( void )
     /* candidate's score						     */
 
     for  ( j = 0 ; j < Noutputs ; j++ )   {
-      cor          = ( curCor [j] - avgValue * error.sumErr [j] ) 
+      cor          = ( curCor [j] - avgValue * error.sumErr [j] )
                      / error.sumSqErr;
       prevCor [j]  = cor;
       curCor  [j]  = 0.0;
@@ -1035,11 +1035,11 @@ void adjust_cand_weights  ( void )
     cs = cand.slopes [i];
     cp = cand.pSlopes [i];
     for  ( j = 0 ; j < Nunits ; j++ )
-      quickprop  ( j, cw, cd, cs, cp, scaledEpsilon, parm.cand.decay, 
+      quickprop  ( j, cw, cd, cs, cp, scaledEpsilon, parm.cand.decay,
                    parm.cand.mu, cand.shrinkFactor );
   }
 }
-    
+
 
 /*	INSTALL_CAND -  Take the best candidate unit and install it in the
 	network.  This is accomplished by copying its weights and unit type
@@ -1062,7 +1062,7 @@ void install_cand  ( void )
 
   /*  Copy the weights over  */
 
-  for  ( i = 0 ; i < Nunits ; i++ ) 
+  for  ( i = 0 ; i < Nunits ; i++ )
     newWeights [i] = candBestWeights [i];
 
   /*  Use the correlation score to each output as a starting point for the  */
@@ -1250,7 +1250,7 @@ boolean build_cache  ( int maxUnits )
     NO_CACHE;
 
   for  ( i = 0 ; i < netConfig.train_pts ; i++ )  {
-    if  ( ( cache.values [i] = (float *) calloc ( maxUnits, 
+    if  ( ( cache.values [i] = (float *) calloc ( maxUnits,
             sizeof( float ) )) == NULL )
       NO_CACHE;
     if  ( ( cache.errors [i] = (float *) calloc ( Noutputs,
@@ -1312,7 +1312,7 @@ void recompute_cache  ( int unit_no )
 {
   float sum;	/*  Sum of stimulus for the unit  */
   int i, j;	/*  Indexing variables		  */
-  
+
   for  ( i = 0 ; i < netConfig.train_pts ; i++ )
     if  ( netConfig.train [i].inputs != NULL )  {
       sum = 0.0;
@@ -1345,11 +1345,11 @@ void  forward_pass  ( int pattern, int Npts, data_set dataSet )
 {
   float sum,		/*  Sum of stimulus for the unit being calculated   */
         *wghts;		/*  Pointer to the weights being used.  Speed hack  */
-  int   i, j;		/*  Indexing variables  */	
+  int   i, j;		/*  Indexing variables  */
 
   setup_inputs  ( pattern, Npts, dataSet );
 
-  /*  Compute the values of the hidden units  */ 
+  /*  Compute the values of the hidden units  */
 
   for  ( i = Ninputs + 1 ; i < Nunits ; i++ )  {
     sum   = 0.0;
@@ -1517,11 +1517,11 @@ void  compute_error  ( float *goal, error_data *err,
       if  ( fabs( dif ) > error.scoreThresh )
         err -> bits++;
       err -> trueErr   += dif * dif;
-   
+
       err -> sumErr [i]  += error_prime;
       err -> sumSqErr    += error_prime * error_prime;
     }
-    
+
     /*  Compute the slopes for this output				     */
 
     if  ( alterSlopes )
@@ -1538,8 +1538,8 @@ void  compute_error  ( float *goal, error_data *err,
 	Epsilon, decay, mu, and shrink factor are just passed in raw.
 */
 
-void  quickprop  ( int node, float *weights, float *deltas, float *slopes, 
-                   float *pSlopes, float epsilon, float decay, float mu, 
+void  quickprop  ( int node, float *weights, float *deltas, float *slopes,
+                   float *pSlopes, float epsilon, float decay, float mu,
                    float shrinkFactor )
 {
   float w,		/*  Weight being updated  */
@@ -1554,21 +1554,21 @@ void  quickprop  ( int node, float *weights, float *deltas, float *slopes,
   p = pSlopes [node];
 
   if  ( d < 0.0 )  {
-    if  ( s > 0.0 )		
-      nextStep -= epsilon * s;	
-				
-    if  ( s >= ( shrinkFactor * p ) ) 
-      nextStep += mu * d;		
-					
-    else				
-      nextStep += d * s / (p - s);	
+    if  ( s > 0.0 )
+      nextStep -= epsilon * s;
+
+    if  ( s >= ( shrinkFactor * p ) )
+      nextStep += mu * d;
+
+    else
+      nextStep += d * s / (p - s);
   }
   else if  ( d > 0.0 )  {
-    if  ( s < 0.0 )			
-      nextStep -= epsilon * s;		
-    if  ( s <= ( shrinkFactor * p ) )	
-      nextStep += mu * d;		
-    else				
+    if  ( s < 0.0 )
+      nextStep -= epsilon * s;
+    if  ( s <= ( shrinkFactor * p ) )
+      nextStep += mu * d;
+    else
       nextStep += d * s / (p - s);
   }
   else
@@ -1592,7 +1592,7 @@ float activation  ( int unitType, float sum )
 {
   float  temp;	/*  Temporary variable to compute gaussian units  */
 
-  switch  ( unitType )  {  
+  switch  ( unitType )  {
     case SIGMOID    :  if  ( sum < -15.0 )
                          return -0.5;
                        if  ( sum > 15.0 )
@@ -1607,7 +1607,7 @@ float activation  ( int unitType, float sum )
                          return parm.cand.sigMin;
                        if  ( sum > 15.0 )
                          return parm.cand.sigMax;
-                       return  ( (parm.cand.sigMax - parm.cand.sigMin) / 
+                       return  ( (parm.cand.sigMax - parm.cand.sigMin) /
                                  (1.0 + exp( -sum )) +
                                  parm.cand.sigMin );
     case GAUSSIAN   :  temp = -0.5 * sum * sum;
@@ -1616,7 +1616,7 @@ float activation  ( int unitType, float sum )
                        else
                          return ( exp( temp ) );
     default         :  fprintf ( stderr, "ERROR: Illegal Unit Type in ");
-                       fprintf ( stderr, "activation function (%d)\n", 
+                       fprintf ( stderr, "activation function (%d)\n",
                                  unitType );
                        exit( 1 );
   }
@@ -1634,7 +1634,7 @@ float activation_prime  ( int unitType, float value, float sum )
     case SIGMOID     :  return  ( 0.25 - value * value );
     case ASIGMOID    :  return  ( value * ( 1.0 - value ) );
     case VARSIGMOID  :  return  ( ( value - parm.cand.sigMin ) *
-                                  ( 1.0 - ( value - parm.cand.sigMin ) / 
+                                  ( 1.0 - ( value - parm.cand.sigMin ) /
                                   ( parm.cand.sigMax - parm.cand.sigMin ) ));
     case GAUSSIAN    :  return  ( sum * (-value) );
     default          :  fprintf ( stderr, "ERROR: Illegal Unit Type in ");
@@ -1670,7 +1670,7 @@ float output_function  ( int unitType, float sum )
                           return parm.out.sigMin;
                         if  ( sum > 15.0 )
                           return parm.out.sigMax;
-                        return  ( (parm.out.sigMax - parm.out.sigMin) / 
+                        return  ( (parm.out.sigMax - parm.out.sigMin) /
                                   (1.0 + exp( -sum ))
                                   + parm.out.sigMin );
     default          :  fprintf ( stderr, "ERROR: Illegal Unit Type in ");
@@ -1693,7 +1693,7 @@ float output_prime  ( int unitType, float value )
     case LINEAR      :  return 1.0;
     case ASIGMOID    :  return ( parm.sigPrimeOffset + value * (1.0 - value) );
     case VARSIGMOID  :  return ( parm.sigPrimeOffset +
-                               (value - parm.out.sigMin) * 
+                               (value - parm.out.sigMin) *
                                (1.0 - (value - parm.out.sigMin)
                                / (parm.out.sigMax - parm.out.sigMin) ) );
     default          :  fprintf ( stderr, "ERROR: Illegal Unit Type in ");
@@ -1726,7 +1726,7 @@ float std_dev  ( data_set train, int Npoints, int Nvals )
           cur   =  train [i].outputs [j];	/* output		     */
           sum   += cur;
           sumSq += cur * cur;
-        } 
+        }
       }  else
         offsetLeft--;
     }  else
