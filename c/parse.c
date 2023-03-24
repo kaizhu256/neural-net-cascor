@@ -245,7 +245,7 @@ void  lookup_token      ( char *, int, float *, enum_cvrt *, int, int * );
 
 float  *get_equiv	( int, int, int, float, float );
 int    num_bin_nodes	( int );
-char   *itoa            ( int, char * );
+char   *itoa2            ( int, char * );
 
 void   parse_err	( int, char * );
 
@@ -612,9 +612,9 @@ void train_mode ( parse_info *parse_data, net_info *net_config )
   /*  Check to make sure that everything that should be set, is set  */
 
   if  ( parse_data -> inputs_left != 0 )
-    parse_err  ( 6, itoa( parse_data -> inputs_left, message ) );
+    parse_err  ( 6, itoa2( parse_data -> inputs_left, message ) );
   if  ( parse_data -> outputs_left != 0 )
-    parse_err  ( 7, itoa( parse_data -> outputs_left, message ) );
+    parse_err  ( 7, itoa2( parse_data -> outputs_left, message ) );
   if  ( parse_data -> num_inputs == 0 )
     parse_err  ( 21, NULL );
   if  ( parse_data -> num_outputs == 0 )
@@ -907,7 +907,7 @@ void set_in  ( char *line, parse_info *parse_data, net_info *net_config )
 
 
   if  ( *( parse_data -> num_in_nodes + in_num - 1 ) != 0 )
-    parse_err ( 13, itoa( in_num, message ) );	/*  Input already set  */
+    parse_err ( 13, itoa2( in_num, message ) );	/*  Input already set  */
   ( parse_data -> inputs_left )--;
   strcpy ( line, line + 3 + strlen( num_str ) );
 
@@ -953,7 +953,7 @@ void  set_out  ( char *line, parse_info *parse_data )
   out_num = atoi( num_str );
 
   if  ( *( parse_data -> num_out_nodes + out_num - 1 ) != 0 )
-    parse_err  ( 16, itoa( out_num, message ) );  /*  Resetting an output  */
+    parse_err  ( 16, itoa2( out_num, message ) );  /*  Resetting an output  */
   ( parse_data -> outputs_left )--;
   strcpy ( line, line + 3 + strlen( num_str ) );
 
@@ -1046,7 +1046,7 @@ void  set_enum  ( float bin_pos, float bin_neg, char *line, int *num_enum,
 
   while  ( ( tok = strtok ( NULL, "," ) ) != NULL )  {
     if  ( strstr ( tok, "}" ) != NULL )
-      *(tok + strlen( tok ) - 1) = NULL;
+      *(tok + strlen( tok ) - 1) = '\x00';
     enqueue  ( &enumerations, tok, ( strlen( tok ) + 1 ) *  sizeof( char ) );
   }
 
@@ -1310,11 +1310,11 @@ void  lookup_token  ( char *token, int position, float *translation,
 }
 
 
-/*	ITOA -  This function takes a number and inserts it into a string. A
+/*	itoa2 -  This function takes a number and inserts it into a string. A
 	pointer to this string is returned to the calling process.
 */
 
-char *itoa  ( int num, char *str )
+char *itoa2  ( int num, char *str )
 {
   sprintf  ( str, "%d", num );
   return str;

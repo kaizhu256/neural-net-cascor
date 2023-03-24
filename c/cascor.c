@@ -122,7 +122,7 @@ boolean  isSeq,			/*  Is this a sequence data set?	     */
 
 /*	RANDOM_WEIGHT -  Returns a random value between plus and minus 'x'  */
 
-#define RANDOM_WEIGHT(x) ( x * (random() % 1000 / 500.0) - x )
+#define RANDOM_WEIGHT(x) ( x * (rand() % 1000 / 500.0) - x )
 
 
 /*	NO_CACHE -  Signals insufficient memory and then turns off the cache */
@@ -279,7 +279,7 @@ void  init_prog  ( void )
   time_t  timer;	/*  Used as a random number seed	*/
 
   time     ( &timer );	/*  Seed the random number generator	*/
-  srandom  ( timer );
+  srand    ( timer );
 
   dataLoaded  = FALSE;	/*  Reset the data loaded flag		*/
   interact    = FALSE;	/*  Reset the interaction flag		*/

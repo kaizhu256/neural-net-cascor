@@ -20,3 +20,5 @@ undefined
 !.github
 !.gitignore
 !.npmignore
+
+*.exe

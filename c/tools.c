@@ -343,7 +343,7 @@ void  add_ext  ( char *inFile, char *outFile, char *ext, char *extList [],
 
   for  ( i = 0 ; i < Next ; i++ )
     if  ( (loc = strstr ( outFile, extList [i] )) != NULL )
-      *loc = NULL;
+      *loc = '\x00';
 
   strcat ( outFile, ext );	/*  Add the new extension to the file name  */
 }
