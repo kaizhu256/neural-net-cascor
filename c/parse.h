@@ -1,6 +1,6 @@
 /*	CMU Learning Benchmark Parse Library
 
-	v1.0.3
+	v1.0.4
 	Matt White  (mwhite+@cmu.edu)
 	10/15/93
 */

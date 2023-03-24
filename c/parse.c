@@ -1,8 +1,8 @@
 /*	CMU Learning Benchmark Parse Library
 
-	v1.0.3
+	v1.0.4
 	Matt White  (mwhite+@cmu.edu)
-	9/30/93
+	2/20/94
 
 	This library contains two functions for the parsing of data files in
 	the CMU Learning Benchmark format.  Given the name of the data file,
@@ -122,6 +122,10 @@
 
 	Revision Log
 	~~~~~~~~~~~~
+	2/20/94         1.0.4   Fixed a bug in which if there were continuous
+				inputs/outputs following an enumerated input
+				or output, would cause that floating point
+				value to overwrite the enumeration.
 	10/15/93	1.0.3   Fixed a bug that caused parse to dump core if
 				a data file is not found.
 	9/30/93		1.0.2	Fixed bug that caused data sets specifying
@@ -1216,23 +1220,25 @@ void  lookup_token  ( char *token, int position, float *translation,
       i = 0,
       j;
 
+  for  ( i = 0 ; i < position ; i++ )
+    advance += num_nodes [i];
+
   if  ( num_enums == 0 )  {			/*  If this is a CONT, just  */
     if  ( !is_float( token ) )                  /* insert it into the        */
       parse_err ( 28, token );                  /* translation               */
-    *(translation+position) = atof( token );
+    translation[advance] = atof( token );
     return;
   }
+
 
   /*  This code has been added as a result of the admissions project here at */
   /* CMU.  It allows for unknowns among enumerated and binary data types.    */
   /* By placing an asterisk as the value of such a data item, you cause all  */
-  /* nodes associated to that input/output to be set to '0.0'.  This it the  */
+  /* nodes associated to that input/output to be set to '0.0'.  This is the  */
   /* least confusing (to the network) method that seems generally applicable */
   /* and readily available.                                                  */
 
   if  ( token [0] == '*' )  {
-    for  ( i = 0 ; i < position ; i++ )
-      advance += num_nodes [i];
     for  ( j = 0 ; j < num_nodes [position] ; j++ )
       translation [advance+j] = 0.0;
     return;
@@ -1240,6 +1246,7 @@ void  lookup_token  ( char *token, int position, float *translation,
 
   /*  Search for the token  */
 
+  i = 0;
   while  ( !found && ( i < num_enums ) )  {
     if  ( !strcmp ( token, (enum_table + i) -> name ) )
       found = TRUE;
@@ -1247,11 +1254,10 @@ void  lookup_token  ( char *token, int position, float *translation,
       i++;
   }
 
+
   if  ( !found )
     parse_err  ( 19, token );	/*  Token not found  */
   
-  for  ( j = 0 ; j < position ; j++ )
-    advance += num_nodes [j];
 
   /*  Insert the equivelence into the translation array  */
 

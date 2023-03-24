@@ -1,8 +1,8 @@
 /*	Cascade Correlation Learning Algorithm
 
-	v1.0.2
+	v1.0.4
 	Matt White  (mwhite+@cmu.edu)
-        12/7/93
+        3/30/93
 */
 
 #ifndef CASCOR
@@ -258,8 +258,8 @@ typedef struct  {
 #define DEF_VALIDATE	FALSE		/*  Default value for parm.validate */
 #define DEF_TEST	TRUE		/*  Default value for parm.test     */
 
-#define VERSION		"1.0.2"			    /*  Version number	*/
-#define RELEASE_DATE	"12/7/93"		    /*  Release date	*/
+#define VERSION		"1.0.4"			    /*  Version number	*/
+#define RELEASE_DATE	"3/30/93"		    /*  Release date	*/
 #define CONTACT		"neural-bench@cs.cmu.edu"   /*  Site contact at CMU */
 
 /*	Macro to calculate error index	*/

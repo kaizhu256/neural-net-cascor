@@ -1,8 +1,8 @@
 /*	Cascade Correlation Learning Algorithm
 
-	v1.0.2
+	v1.0.4
 	Matt White  (mwhite+@cmu.edu)
-	12/7/93
+	3/30/94
 
 	QUESTIONS/COMMENTS: neural-bench@cs.cmu.edu
 
@@ -18,7 +18,7 @@
 	modified accordingly.
 
 	This code is a re-engineered version of the C port, by Scott
-	Crowder, of the origonal Lisp code by Scott Fahlman.  Features have
+	Crowder, of the original Lisp code by Scott Fahlman.  Features have
 	been added to allow data sets from the CMU learning benchmark
 	database to run on this system.
 
@@ -50,6 +50,12 @@
 
 	Revision Log
 	~~~~~~~~~~~~
+	3/30/94         1.0.4   Fixed a bug that caused activation prime for
+	                        varsigmoid units in the candidate layer to be
+				calculated incorrectly.  Thanks to Hugo Silva
+				for pointing this out.
+	1/10/94         1.0.3   Fixed a bug that caused validation not to work
+	                        correctly in multiple trial runs.
 	12/7/93         1.0.2   Fixed a bug which could cause learning
 	                        disabilities on 64bit machines.
 	10/15/93	1.0.1	Fixed inconsistant entries in ParmTable.
@@ -191,7 +197,7 @@ void  main  ( int argc, char *argv [] )
   init_prog          ( );
   init_parms         ( );
   exec_command_line  ( argc, argv );
- if  ( interact )
+  if  ( interact )
     change_parms ( FALSE );
   else
     list_parms  ( );
@@ -204,6 +210,7 @@ void  main  ( int argc, char *argv [] )
 
     /*  Initialize for this trial  */
 
+    valStat = TRAINING;
     init_net      ( maxUnits);
     output_begin_trial  ( trial + 1, &startTime );
     if  ( parm.useCache )
@@ -353,6 +360,7 @@ void init_vars	( int *maxUnits )
 
   error.stdDev		= std_dev( netConfig.train, netConfig.train_pts,
                                    NtrainOutVals );
+
   if  ( parm.validate )
     val.stdDev	= std_dev ( val.data, val.Npts, val.NoutVals );
   if  ( parm.test )
@@ -1162,6 +1170,7 @@ void  validation_epoch  ( float testThreshold, int maxUnits, status_t *status )
       for  ( j = 0 ; j < Nunits ; j++ )
         out.weights [i][j] = val.bestOutConn [i][j];
     *status = STAGNANT;
+    firstTime = TRUE;
   }
 
   net.values	= oldVals;		/*  Restore the internal activation  */
@@ -1601,7 +1610,7 @@ float activation_prime  ( int unitType, float value, float sum )
   switch  ( unitType )  {
     case SIGMOID     :  return  ( 0.25 - value * value );
     case ASIGMOID    :  return  ( value * ( 1.0 - value ) );
-    case VARSIGMOID  :  return  ( ( value * parm.cand.sigMin ) *
+    case VARSIGMOID  :  return  ( ( value - parm.cand.sigMin ) *
                                   ( 1.0 - ( value - parm.cand.sigMin ) / 
                                   ( parm.cand.sigMax - parm.cand.sigMin ) ));
     case GAUSSIAN    :  return  ( sum * (-value) );
@@ -1704,3 +1713,4 @@ float std_dev  ( data_set train, int Npoints, int Nvals )
 
   return  ( sqrt( (Nvals * sumSq - sum * sum) / (Nvals * (Nvals - 1.0)) ) );
 }
+
