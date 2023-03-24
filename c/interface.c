@@ -1,9 +1,9 @@
 /*	Cascade Correlation Learning Algorithm
 
 	Unix Interface Code
-	v1.0.4
+	v1.1
 	Matt White  (mwhite+@cmu.edu)
-	3/30/93
+	5/31/94
 
 	QUESTIONS/COMMENTS: neural-bench@cs.cmu.edu
 

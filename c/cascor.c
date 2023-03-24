@@ -1,8 +1,8 @@
 /*	Cascade Correlation Learning Algorithm
 
-	v1.0.4
+	v1.1
 	Matt White  (mwhite+@cmu.edu)
-	3/30/94
+	5/31/94
 
 	QUESTIONS/COMMENTS: neural-bench@cs.cmu.edu
 
@@ -50,6 +50,8 @@
 
 	Revision Log
 	~~~~~~~~~~~~
+	5/31/94         1.1     Added a function to dump results of the test
+	                        epoch to a file
 	3/30/94         1.0.4   Fixed a bug that caused activation prime for
 	                        varsigmoid units in the candidate layer to be
 				calculated incorrectly.  Thanks to Hugo Silva
@@ -159,6 +161,7 @@ void	  install_cand		( void );
 
 void	  validation_epoch	( float, int, status_t * );
 void	  test_epoch		( void );	/*  Network testing code  */
+void      dump_results          ( FILE *, float *, float * );
 
 boolean   build_cache		( int );	/*  Cache code		  */
 void      destroy_cache		( void );
@@ -1187,8 +1190,14 @@ void  validation_epoch  ( float testThreshold, int maxUnits, status_t *status )
 
 void  test_epoch  ( void )
 {
-  int offsetLeft,	/*  Number of inputs until output  */
-      i;  		/*  Indexing variable		   */
+  int  offsetLeft,	/*  Number of inputs until output  */
+       i;  		/*  Indexing variable		   */
+  FILE *fptr;            /*  Pointer to dump file for test outputs  */
+
+  if  ( (fptr=fopen("test.results","w")) == NULL )  {
+    fprintf (stderr,"ERROR: Unable to open file 'test.results' for writing");
+    exit( 1 );
+  }
 
   offsetLeft = netConfig.offset;
 
@@ -1198,15 +1207,29 @@ void  test_epoch  ( void )
     if  ( test.data [i].inputs != NULL )  {
       if  ( offsetLeft == 0 )  {
         forward_pass  ( i, test.Npts, test.data );
+	dump_results  ( fptr, test.data[i].inputs, test.data[i].outputs );
         compute_error ( test.data [i].outputs, &error, TRUE, FALSE );
       }  else
         offsetLeft--;
     }  else
       offsetLeft = netConfig.offset;
 
+  fclose( fptr );
+
   check_interrupt  ( );
 }
 
+void dump_results  ( FILE *fptr, float *inputs, float *outputs )
+{
+  int i;
+
+  for  ( i = 0; i < Ninputs-1; i++)
+    fprintf (fptr,"%f, ",inputs[i]);
+  fprintf (fptr,"%f  =>  ",inputs[Ninputs-1]);
+  for  ( i = 0; i < Noutputs-1; i++)
+    fprintf (fptr,"%f (%f), ",outputs[i],out.values[i]);
+  fprintf (fptr,"%f (%f);\n",outputs[i],out.values[i]);
+}
 
 /************************ Cache Routines *************************************/
 

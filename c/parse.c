@@ -1,8 +1,8 @@
 /*	CMU Learning Benchmark Parse Library
 
-	v1.0.4
+	v1.1
 	Matt White  (mwhite+@cmu.edu)
-	2/20/94
+	5/31/94
 
 	This library contains two functions for the parsing of data files in
 	the CMU Learning Benchmark format.  Given the name of the data file,
@@ -122,6 +122,9 @@
 
 	Revision Log
 	~~~~~~~~~~~~
+	5/31/94		1.1     Added a 'rosetta stone' feature that prints
+				the correspondances between enumerated values
+				and their inputs into the network.
 	2/20/94         1.0.4   Fixed a bug in which if there were continuous
 				inputs/outputs following an enumerated input
 				or output, would cause that floating point
@@ -211,6 +214,7 @@ typedef struct {
 void  init_parse 	( char *, int, float, float,
                           net_info *, parse_info *, FILE **);
 void  shutdown_parse	( parse_info *, FILE ** );
+void  print_rosetta     ( parse_info );
 
 char  *get_line  	( FILE * );
 
@@ -295,6 +299,7 @@ int  parse  ( char *filename, int parameters, float bin_pos, float bin_neg,
   gen_dataset  ( &parse_data, net_config );	/*  Generate the last data  */
 						/* set that was read in     */
 
+  print_rosetta  ( parse_data );
   shutdown_parse  ( &parse_data, &datafile );	/*  Clean up workspace  */
   
   return TRUE;
@@ -387,6 +392,45 @@ void  init_parse  ( char *filename, int parameters, float bin_pos,
   QUEUE_INIT( parse_data -> data );		/*  Initialize the queue  */
 }
 
+
+/*	PRINT_ROSETTA -  Prints a rosetta stone for inputs and outputs to
+	aid in the deciphering of network data.
+*/
+
+void print_rosetta  ( parse_info parse_data )
+{
+  int i,j,k;
+
+  fprintf (stderr, "\nRosetta Stone\n\n");
+  
+  for  (i=0;i<parse_data.num_inputs;i++)  {
+    fprintf  (stderr,"Input %d-  ",i+1);
+    if  ( parse_data.num_in_enums[i] == 0 )
+      fprintf  (stderr,"cont\n");
+    else
+      for (j=0;j<parse_data.num_in_enums[i];j++)  {
+	fprintf(stderr,"\n         %s :  ",parse_data.input_table[i][j].name);
+	for  (k=0;k<parse_data.num_in_nodes[i];k++)
+	  fprintf(stderr,"%4.2f ", parse_data.input_table[i][j].equiv[k]);
+      }
+    fprintf (stderr,"\n");
+  }
+  
+  for  (i=0;i<parse_data.num_outputs;i++)  {
+    fprintf  (stderr,"Output %d- ",i+1);
+    if  ( parse_data.num_out_enums[i] == 0 )
+      fprintf  (stderr,"cont\n");
+    else
+      for (j=0;j<parse_data.num_out_enums[i];j++)  {
+	fprintf(stderr,"\n         %s :  ",parse_data.output_table[i][j].name);
+	for  (k=0;k<parse_data.num_out_nodes[i];k++)
+	  fprintf(stderr,"%4.2f ", parse_data.output_table[i][j].equiv[k]);
+      }
+    fprintf (stderr,"\n");
+  }
+
+  fprintf (stderr,"\n\n");
+}
 
 /*	SHUTDOWN_PARSE -  This function performs post-parsing cleanup.
 	Basically, it deallocates memory that was allocated during the
